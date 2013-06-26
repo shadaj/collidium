@@ -18,3 +18,7 @@ How to build
 How to play
 -----------
 Open index.html
+
+Other Info
+----------
+Background music from http://opengameart.org/content/metropolis-rush

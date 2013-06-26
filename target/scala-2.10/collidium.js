@@ -1923,21 +1923,21 @@
     Class.prototype["draw(Lme.shadaj.collidium.Canvas2D;)V"] = (function(arg$canvas) {
       $.c["me.shadaj.collidium.Sprite"].prototype["draw(Lme.shadaj.collidium.Canvas2D;)V"].call(this, arg$canvas);
       arg$canvas.beginPath();
-      var radius$jsid$22359 = ((this["diameter()I"]() / 2) | 0);
-      arg$canvas.arc(this["location()Lme.shadaj.collidium.Point;"]()["x()D"](), this["location()Lme.shadaj.collidium.Point;"]()["y()D"](), radius$jsid$22359, 0, 6.283185307179586, false);
+      var radius$jsid$22450 = ((this["diameter()I"]() / 2) | 0);
+      arg$canvas.arc(this["location()Lme.shadaj.collidium.Point;"]()["x()D"](), this["location()Lme.shadaj.collidium.Point;"]()["y()D"](), radius$jsid$22450, 0, 6.283185307179586, false);
       arg$canvas.fill()
     });
     Class.prototype["colliding(Lme.shadaj.collidium.Sprite;)V"] = (function(arg$sprite) {
       /*<skip>*/
     });
     Class.prototype["inBoundsOf(Lme.shadaj.collidium.Circle;)Z"] = (function(arg$circle) {
-      var xshift$jsid$21818 = (arg$circle["location()Lme.shadaj.collidium.Point;"]()["x()D"]() - this["location()Lme.shadaj.collidium.Point;"]()["x()D"]());
-      var yshift$jsid$21819 = (arg$circle["location()Lme.shadaj.collidium.Point;"]()["y()D"]() - this["location()Lme.shadaj.collidium.Point;"]()["y()D"]());
-      var deltaDiameter$jsid$21820 = (((this["diameter()I"]() - arg$circle["diameter()I"]()) / 2) | 0);
+      var xshift$jsid$21856 = (arg$circle["location()Lme.shadaj.collidium.Point;"]()["x()D"]() - this["location()Lme.shadaj.collidium.Point;"]()["x()D"]());
+      var yshift$jsid$21857 = (arg$circle["location()Lme.shadaj.collidium.Point;"]()["y()D"]() - this["location()Lme.shadaj.collidium.Point;"]()["y()D"]());
+      var deltaDiameter$jsid$21858 = (((this["diameter()I"]() - arg$circle["diameter()I"]()) / 2) | 0);
       if ((arg$circle["diameter()I"]() > this["diameter()I"]())) {
         return false
       } else {
-        if ((((xshift$jsid$21818 * xshift$jsid$21818) + (yshift$jsid$21819 * yshift$jsid$21819)) < (deltaDiameter$jsid$21820 * deltaDiameter$jsid$21820))) {
+        if ((((xshift$jsid$21856 * xshift$jsid$21856) + (yshift$jsid$21857 * yshift$jsid$21857)) < (deltaDiameter$jsid$21858 * deltaDiameter$jsid$21858))) {
           return true
         } else {
           return false
@@ -2149,40 +2149,40 @@
         return $.m["scala.None"]
       } else {
         if (((arg$line["m()D"]() > 1000000) || (arg$line["m()D"]() < -1000000))) {
-          var intersectionY$jsid$22459 = this["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](arg$line["minX()D"]());
-          if (((arg$line["maxY()D"]() > intersectionY$jsid$22459) && (arg$line["minY()D"]() < intersectionY$jsid$22459))) {
-            return $.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](arg$line["minX()D"](), intersectionY$jsid$22459))
+          var intersectionY$jsid$22550 = this["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](arg$line["minX()D"]());
+          if (((arg$line["maxY()D"]() > intersectionY$jsid$22550) && (arg$line["minY()D"]() < intersectionY$jsid$22550))) {
+            return $.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](arg$line["minX()D"](), intersectionY$jsid$22550))
           } else {
             return $.m["scala.None"]
           }
         } else {
           if (((this["m()D"]() > 1000000) || (this["m()D"]() < -1000000))) {
-            var intersectionX$jsid$22483 = this["start()Lme.shadaj.collidium.Point;"]()["x()D"]();
-            var intersectionY$jsid$22484 = arg$line["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](intersectionX$jsid$22483);
-            var x1$jsid$22975 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22483, intersectionY$jsid$22484)
+            var intersectionX$jsid$22574 = this["start()Lme.shadaj.collidium.Point;"]()["x()D"]();
+            var intersectionY$jsid$22575 = arg$line["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](intersectionX$jsid$22574);
+            var x1$jsid$23108 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22574, intersectionY$jsid$22575)
           } else {
-            var intersectionX$jsid$22491 = ((arg$line["c()D"]() - this["c()D"]()) / (this["m()D"]() - arg$line["m()D"]()));
-            var intersectionY$jsid$22492 = this["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](intersectionX$jsid$22491);
-            var x1$jsid$22975 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22491, intersectionY$jsid$22492)
+            var intersectionX$jsid$22582 = ((arg$line["c()D"]() - this["c()D"]()) / (this["m()D"]() - arg$line["m()D"]()));
+            var intersectionY$jsid$22583 = this["y()Lscala.Function1;"]()["apply$mcDD$sp(D)D"](intersectionX$jsid$22582);
+            var x1$jsid$23108 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22582, intersectionY$jsid$22583)
           };
-          var result$$jslabel$matchEnd3$22978;
-          $jslabel$matchEnd3$22978: do {
-            if ((x1$jsid$22975 !== null)) {
-              var intersectionX$jsid$22515 = x1$jsid$22975["_1$mcD$sp()D"]();
-              var intersectionY$jsid$22516 = x1$jsid$22975["_2$mcD$sp()D"]();
-              result$$jslabel$matchEnd3$22978 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22515, intersectionY$jsid$22516);
-              break $jslabel$matchEnd3$22978
+          var result$$jslabel$matchEnd3$23110;
+          $jslabel$matchEnd3$23110: do {
+            if ((x1$jsid$23108 !== null)) {
+              var intersectionX$jsid$22605 = x1$jsid$23108["_1$mcD$sp()D"]();
+              var intersectionY$jsid$22606 = x1$jsid$23108["_2$mcD$sp()D"]();
+              result$$jslabel$matchEnd3$23110 = new $.c["scala.Tuple2$mcDD$sp"]()["<init>(DD)"](intersectionX$jsid$22605, intersectionY$jsid$22606);
+              break $jslabel$matchEnd3$23110
             } else {
               /*<skip>*/
             };
-            throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$22975);
-            break $jslabel$matchEnd3$22978
+            throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23108);
+            break $jslabel$matchEnd3$23110
           } while (false);
-          var x$1$jsid$22472 = result$$jslabel$matchEnd3$22978;
-          var intersectionX$jsid$22473 = x$1$jsid$22472["_1$mcD$sp()D"]();
-          var intersectionY$jsid$22474 = x$1$jsid$22472["_2$mcD$sp()D"]();
-          if (((((((((intersectionX$jsid$22473 >= arg$line["minX()D"]()) && (intersectionX$jsid$22473 <= arg$line["maxX()D"]())) && (intersectionY$jsid$22474 >= arg$line["minY()D"]())) && (intersectionY$jsid$22474 <= arg$line["maxY()D"]())) && (intersectionX$jsid$22473 >= this["minX()D"]())) && (intersectionX$jsid$22473 <= this["maxX()D"]())) && (intersectionY$jsid$22474 >= this["minY()D"]())) && (intersectionY$jsid$22474 <= this["maxY()D"]()))) {
-            return $.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](intersectionX$jsid$22473, intersectionY$jsid$22474))
+          var x$1$jsid$22563 = result$$jslabel$matchEnd3$23110;
+          var intersectionX$jsid$22564 = x$1$jsid$22563["_1$mcD$sp()D"]();
+          var intersectionY$jsid$22565 = x$1$jsid$22563["_2$mcD$sp()D"]();
+          if (((((((((intersectionX$jsid$22564 >= arg$line["minX()D"]()) && (intersectionX$jsid$22564 <= arg$line["maxX()D"]())) && (intersectionY$jsid$22565 >= arg$line["minY()D"]())) && (intersectionY$jsid$22565 <= arg$line["maxY()D"]())) && (intersectionX$jsid$22564 >= this["minX()D"]())) && (intersectionX$jsid$22564 <= this["maxX()D"]())) && (intersectionY$jsid$22565 >= this["minY()D"]())) && (intersectionY$jsid$22565 <= this["maxY()D"]()))) {
+            return $.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](intersectionX$jsid$22564, intersectionY$jsid$22565))
           } else {
             return $.m["scala.None"]
           }
@@ -2190,53 +2190,53 @@
       }
     });
     Class.prototype["colliding(Lme.shadaj.collidium.Sprite;)V"] = (function(arg$sprite) {
-      var spriteLine$jsid$22559 = new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](arg$sprite["location()Lme.shadaj.collidium.Point;"](), arg$sprite["next()Lme.shadaj.collidium.Point;"](), arg$sprite["color()T"]());
-      var x1$jsid$23006 = this["intersects(Lme.shadaj.collidium.Line;)Lscala.Option;"](spriteLine$jsid$22559);
-      $jslabel$matchEnd5$23011: do {
-        if ($.isInstance(x1$jsid$23006, "scala.Some")) {
-          var x2$jsid$23007 = $.asInstance(x1$jsid$23006, "scala.Some");
-          var point$jsid$22593 = $.asInstance(x2$jsid$23007["x()O"](), "me.shadaj.collidium.Point");
-          arg$sprite["move(Lme.shadaj.collidium.Point;)V"](point$jsid$22593);
+      var spriteLine$jsid$22649 = new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](arg$sprite["location()Lme.shadaj.collidium.Point;"](), arg$sprite["next()Lme.shadaj.collidium.Point;"](), arg$sprite["color()T"]());
+      var x1$jsid$23114 = this["intersects(Lme.shadaj.collidium.Line;)Lscala.Option;"](spriteLine$jsid$22649);
+      $jslabel$matchEnd5$23119: do {
+        if ($.isInstance(x1$jsid$23114, "scala.Some")) {
+          var x2$jsid$23115 = $.asInstance(x1$jsid$23114, "scala.Some");
+          var point$jsid$22683 = $.asInstance(x2$jsid$23115["x()O"](), "me.shadaj.collidium.Point");
+          arg$sprite["move(Lme.shadaj.collidium.Point;)V"](point$jsid$22683);
           arg$sprite["theta_=(D)V"](((2 * this["theta()D"]()) - arg$sprite["theta()D"]()));
           $.m["scala.runtime.BoxedUnit"]["UNIT()Lscala.runtime.BoxedUnit;"]();
-          break $jslabel$matchEnd5$23011
+          break $jslabel$matchEnd5$23119
         } else {
           /*<skip>*/
         };
-        if ($.anyRefEqEq($.m["scala.None"], x1$jsid$23006)) {
+        if ($.anyRefEqEq($.m["scala.None"], x1$jsid$23114)) {
           $.m["scala.runtime.BoxedUnit"]["UNIT()Lscala.runtime.BoxedUnit;"]();
-          break $jslabel$matchEnd5$23011
+          break $jslabel$matchEnd5$23119
         } else {
           /*<skip>*/
         };
-        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23006);
-        break $jslabel$matchEnd5$23011
+        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23114);
+        break $jslabel$matchEnd5$23119
       } while (false)
     });
     Class.prototype["colliding(Lme.shadaj.collidium.Circle;)V"] = (function(arg$circle) {
-      var spriteLine$jsid$22603 = new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](arg$circle["location()Lme.shadaj.collidium.Point;"](), arg$circle["next()Lme.shadaj.collidium.Point;"](), arg$circle["color()T"]());
-      var x1$jsid$23019 = this["intersects(Lme.shadaj.collidium.Line;)Lscala.Option;"](spriteLine$jsid$22603);
-      $jslabel$matchEnd5$23024: do {
-        if ($.isInstance(x1$jsid$23019, "scala.Some")) {
-          var x2$jsid$23020 = $.asInstance(x1$jsid$23019, "scala.Some");
-          var point$jsid$22605 = $.asInstance(x2$jsid$23020["x()O"](), "me.shadaj.collidium.Point");
-          var radius$jsid$22606 = ((arg$circle["diameter()I"]() / 2) | 0);
-          var movePoint$jsid$22607 = new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"]((point$jsid$22605["x()D"]() - ($.m["java.lang.Math"]["cos(D)D"](arg$circle["theta()D"]()) * radius$jsid$22606)), (point$jsid$22605["y()D"]() - ($.m["java.lang.Math"]["sin(D)D"](arg$circle["theta()D"]()) * radius$jsid$22606)));
-          arg$circle["move(Lme.shadaj.collidium.Point;)V"](movePoint$jsid$22607);
+      var spriteLine$jsid$22693 = new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](arg$circle["location()Lme.shadaj.collidium.Point;"](), arg$circle["next()Lme.shadaj.collidium.Point;"](), arg$circle["color()T"]());
+      var x1$jsid$23127 = this["intersects(Lme.shadaj.collidium.Line;)Lscala.Option;"](spriteLine$jsid$22693);
+      $jslabel$matchEnd5$23132: do {
+        if ($.isInstance(x1$jsid$23127, "scala.Some")) {
+          var x2$jsid$23128 = $.asInstance(x1$jsid$23127, "scala.Some");
+          var point$jsid$22695 = $.asInstance(x2$jsid$23128["x()O"](), "me.shadaj.collidium.Point");
+          var radius$jsid$22696 = ((arg$circle["diameter()I"]() / 2) | 0);
+          var movePoint$jsid$22697 = new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"]((point$jsid$22695["x()D"]() - ($.m["java.lang.Math"]["cos(D)D"](arg$circle["theta()D"]()) * radius$jsid$22696)), (point$jsid$22695["y()D"]() - ($.m["java.lang.Math"]["sin(D)D"](arg$circle["theta()D"]()) * radius$jsid$22696)));
+          arg$circle["move(Lme.shadaj.collidium.Point;)V"](movePoint$jsid$22697);
           arg$circle["theta_=(D)V"](((2 * this["theta()D"]()) - arg$circle["theta()D"]()));
           $.m["scala.runtime.BoxedUnit"]["UNIT()Lscala.runtime.BoxedUnit;"]();
-          break $jslabel$matchEnd5$23024
+          break $jslabel$matchEnd5$23132
         } else {
           /*<skip>*/
         };
-        if ($.anyRefEqEq($.m["scala.None"], x1$jsid$23019)) {
+        if ($.anyRefEqEq($.m["scala.None"], x1$jsid$23127)) {
           $.m["scala.runtime.BoxedUnit"]["UNIT()Lscala.runtime.BoxedUnit;"]();
-          break $jslabel$matchEnd5$23024
+          break $jslabel$matchEnd5$23132
         } else {
           /*<skip>*/
         };
-        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23019);
-        break $jslabel$matchEnd5$23024
+        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23127);
+        break $jslabel$matchEnd5$23132
       } while (false)
     });
     Class.prototype["height()I"] = (function() {
@@ -2447,7 +2447,7 @@
       return this.$jsfield$backgroundMusic
     });
     Class.prototype["main()V"] = (function() {
-      var tick$jsid$22297 = new $.c["me.shadaj.collidium.Main$$anonfun$1"]()["<init>()"]();
+      var tick$jsid$22380 = new $.c["me.shadaj.collidium.Main$$anonfun$1"]()["<init>()"]();
       this["canvasDom()Lme.shadaj.collidium.DOMElement;"]().onmousedown = (function($this) {
         return (function(arg1) {
           return $this["apply(O)O"](arg1)
@@ -2467,7 +2467,12 @@
         return (function() {
           return $this["apply()O"]()
         })
-      })(tick$jsid$22297), 20)
+      })(tick$jsid$22380), 20)
+    });
+    Class.prototype["location(Lme.shadaj.collidium.MouseEvent;)Lscala.Tuple2;"] = (function(arg$event) {
+      var x$jsid$22407 = arg$event.layerX;
+      var y$jsid$22408 = arg$event.layerY;
+      return new $.c["scala.Tuple2"]()["<init>(OO)"](x$jsid$22407, y$jsid$22408)
     });
     Class.prototype["onMouseDown()Lscala.Function1;"] = (function() {
       return this.$jsfield$onMouseDown
@@ -2545,6 +2550,9 @@
     Class.prototype.main = (function() {
       return this["main()V"]()
     });
+    Class.prototype.location = (function(arg$1) {
+      return this["location(Lme.shadaj.collidium.MouseEvent;)Lscala.Tuple2;"](arg$1)
+    });
     Class.prototype.onMouseDown = (function() {
       return this["onMouseDown()Lscala.Function1;"]()
     });
@@ -2609,22 +2617,38 @@
     Class.prototype = Object.create($.c["scala.runtime.AbstractFunction1"].prototype);
     Class.prototype.constructor = Class;
     Class.prototype["apply(Lme.shadaj.collidium.MouseEvent;)V"] = (function(arg$event) {
-      var x$jsid$22204 = arg$event.layerX;
-      var y$jsid$22205 = arg$event.layerY;
-      var xDiff$jsid$22206 = ($.uF($.m["me.shadaj.collidium.Main"]["cannonLocation()Lscala.Tuple2;"]()["_1()O"]()) - x$jsid$22204);
-      var yDiff$jsid$22207 = ($.uF($.m["me.shadaj.collidium.Main"]["cannonLocation()Lscala.Tuple2;"]()["_2()O"]()) - y$jsid$22205);
-      if ((!$.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["started()Z"]())) {
-        if ((((xDiff$jsid$22206 * xDiff$jsid$22206) + (yDiff$jsid$22207 * yDiff$jsid$22207)) <= 625)) {
-          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Sling"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22204, y$jsid$22205), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22204, y$jsid$22205), "white")));
-          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22204);
-          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22205)
+      var x1$jsid$23062 = $.m["me.shadaj.collidium.Main"]["location(Lme.shadaj.collidium.MouseEvent;)Lscala.Tuple2;"](arg$event);
+      var result$$jslabel$matchEnd3$23065;
+      $jslabel$matchEnd3$23065: do {
+        if ((x1$jsid$23062 !== null)) {
+          var x$jsid$22259 = x1$jsid$23062["_1()O"]();
+          var y$jsid$22260 = x1$jsid$23062["_2()O"]();
+          result$$jslabel$matchEnd3$23065 = new $.c["scala.Tuple2"]()["<init>(OO)"](x$jsid$22259, y$jsid$22260);
+          break $jslabel$matchEnd3$23065
         } else {
-          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22204, y$jsid$22205), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22204, y$jsid$22205), "white")));
+          /*<skip>*/
+        };
+        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23062);
+        break $jslabel$matchEnd3$23065
+      } while (false);
+      var x$1$jsid$22249 = result$$jslabel$matchEnd3$23065;
+      var x$jsid$22250 = x$1$jsid$22249["_1()O"]();
+      var y$jsid$22251 = x$1$jsid$22249["_2()O"]();
+      var xDiff$jsid$22252 = ($.uF($.m["me.shadaj.collidium.Main"]["cannonLocation()Lscala.Tuple2;"]()["_1()O"]()) - x$jsid$22250);
+      var yDiff$jsid$22253 = ($.uF($.m["me.shadaj.collidium.Main"]["cannonLocation()Lscala.Tuple2;"]()["_2()O"]()) - y$jsid$22251);
+      if ((!$.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["started()Z"]())) {
+        if ((((xDiff$jsid$22252 * xDiff$jsid$22252) + (yDiff$jsid$22253 * yDiff$jsid$22253)) <= 625)) {
+          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Sling"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22250, y$jsid$22251), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22250, y$jsid$22251), "white")));
+          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22250);
+          $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22251)
+        } else {
+          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"](new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22250, y$jsid$22251), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22250, y$jsid$22251), "white")));
           $.m["me.shadaj.collidium.Main"]["drawingLine_=(Z)V"](true)
         }
       } else {
         /*<skip>*/
-      }
+      };
+      arg$event.preventDefault()
     });
     Class.prototype["apply(O)O"] = (function(arg$v1) {
       this["apply(Lme.shadaj.collidium.MouseEvent;)V"](arg$v1);
@@ -2662,21 +2686,37 @@
     Class.prototype = Object.create($.c["scala.runtime.AbstractFunction1"].prototype);
     Class.prototype.constructor = Class;
     Class.prototype["apply(Lme.shadaj.collidium.MouseEvent;)V"] = (function(arg$event) {
-      var x$jsid$22249 = arg$event.layerX;
-      var y$jsid$22250 = arg$event.layerY;
+      var x1$jsid$23093 = $.m["me.shadaj.collidium.Main"]["location(Lme.shadaj.collidium.MouseEvent;)Lscala.Tuple2;"](arg$event);
+      var result$$jslabel$matchEnd3$23095;
+      $jslabel$matchEnd3$23095: do {
+        if ((x1$jsid$23093 !== null)) {
+          var x$jsid$22314 = x1$jsid$23093["_1()O"]();
+          var y$jsid$22315 = x1$jsid$23093["_2()O"]();
+          result$$jslabel$matchEnd3$23095 = new $.c["scala.Tuple2"]()["<init>(OO)"](x$jsid$22314, y$jsid$22315);
+          break $jslabel$matchEnd3$23095
+        } else {
+          /*<skip>*/
+        };
+        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23093);
+        break $jslabel$matchEnd3$23095
+      } while (false);
+      var x$2$jsid$22308 = result$$jslabel$matchEnd3$23095;
+      var x$jsid$22309 = x$2$jsid$22308["_1()O"]();
+      var y$jsid$22310 = x$2$jsid$22308["_2()O"]();
       if (($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["isDefined()Z"]() && (!$.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["started()Z"]()))) {
-        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22249);
-        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22250);
-        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Sling"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22249, y$jsid$22250), "white")));
+        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22309);
+        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22310);
+        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Sling"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22309, y$jsid$22310), "white")));
         $.asInstance($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["draw(Lme.shadaj.collidium.Canvas2D;)V"]($.m["me.shadaj.collidium.Main"]["canvas()Lme.shadaj.collidium.Canvas2D;"]())
       } else {
         if (($.m["me.shadaj.collidium.Main"]["drawingLine()Z"]() && $.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["isDefined()Z"]())) {
-          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22249, y$jsid$22250), "white")));
+          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22309, y$jsid$22310), "white")));
           $.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["draw(Lme.shadaj.collidium.Canvas2D;)V"]($.m["me.shadaj.collidium.Main"]["canvas()Lme.shadaj.collidium.Canvas2D;"]())
         } else {
           /*<skip>*/
         }
-      }
+      };
+      arg$event.preventDefault()
     });
     Class.prototype["apply(O)O"] = (function(arg$v1) {
       this["apply(Lme.shadaj.collidium.MouseEvent;)V"](arg$v1);
@@ -2714,29 +2754,45 @@
     Class.prototype = Object.create($.c["scala.runtime.AbstractFunction1"].prototype);
     Class.prototype.constructor = Class;
     Class.prototype["apply(Lme.shadaj.collidium.MouseEvent;)V"] = (function(arg$event) {
-      var x$jsid$22261 = arg$event.layerX;
-      var y$jsid$22262 = arg$event.layerY;
+      var x1$jsid$23099 = $.m["me.shadaj.collidium.Main"]["location(Lme.shadaj.collidium.MouseEvent;)Lscala.Tuple2;"](arg$event);
+      var result$$jslabel$matchEnd3$23101;
+      $jslabel$matchEnd3$23101: do {
+        if ((x1$jsid$23099 !== null)) {
+          var x$jsid$22338 = x1$jsid$23099["_1()O"]();
+          var y$jsid$22339 = x1$jsid$23099["_2()O"]();
+          result$$jslabel$matchEnd3$23101 = new $.c["scala.Tuple2"]()["<init>(OO)"](x$jsid$22338, y$jsid$22339);
+          break $jslabel$matchEnd3$23101
+        } else {
+          /*<skip>*/
+        };
+        throw new $.c["scala.MatchError"]()["<init>(O)"](x1$jsid$23099);
+        break $jslabel$matchEnd3$23101
+      } while (false);
+      var x$3$jsid$22332 = result$$jslabel$matchEnd3$23101;
+      var x$jsid$22333 = x$3$jsid$22332["_1()O"]();
+      var y$jsid$22334 = x$3$jsid$22332["_2()O"]();
       if (($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["isDefined()Z"]() && (!$.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["started()Z"]()))) {
         $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["theta_=(D)V"]($.asInstance($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Sprite")["theta()D"]());
         $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["magnitude_=(D)V"](($.asInstance($.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["slingOption()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["magnitude()D"]() / 40));
-        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22262);
-        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22261);
+        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["y_=(D)V"](y$jsid$22334);
+        $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["ball()Lme.shadaj.collidium.Circle;"]()["location()Lme.shadaj.collidium.Point;"]()["x_=(D)V"](x$jsid$22333);
         $.m["me.shadaj.collidium.Main"]["pullingRubber_=(Z)V"](false);
         $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["started_=(Z)V"](true);
         $.m["me.shadaj.collidium.Main"]["backgroundMusic()Lme.shadaj.collidium.AudioElement;"]().play()
       } else {
         if (($.m["me.shadaj.collidium.Main"]["drawingLine()Z"]() && $.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["isDefined()Z"]())) {
-          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22261, y$jsid$22262), "white")));
+          $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.Option"]["apply(O)Lscala.Option;"](new $.c["me.shadaj.collidium.Line"]()["<init>(Lme.shadaj.collidium.Point;Lme.shadaj.collidium.Point;T)"]($.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line")["start()Lme.shadaj.collidium.Point;"](), new $.c["me.shadaj.collidium.Point"]()["<init>(DD)"](x$jsid$22333, y$jsid$22334), "white")));
           var jsx$4 = $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]();
-          var x$1$jsid$22291 = $.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line");
-          var jsx$5 = $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["obstacles()Lscala.collection.immutable.List;"]()["::(O)Lscala.collection.immutable.List;"](x$1$jsid$22291);
+          var x$4$jsid$22374 = $.asInstance($.m["me.shadaj.collidium.Main"]["curObstacle()Lscala.Option;"]()["get()O"](), "me.shadaj.collidium.Line");
+          var jsx$5 = $.m["me.shadaj.collidium.Main"]["board()Lme.shadaj.collidium.Board;"]()["obstacles()Lscala.collection.immutable.List;"]()["::(O)Lscala.collection.immutable.List;"](x$4$jsid$22374);
           jsx$4["obstacles_=(Lscala.collection.immutable.List;)V"](jsx$5);
           $.m["me.shadaj.collidium.Main"]["drawingLine_=(Z)V"](false);
           $.m["me.shadaj.collidium.Main"]["curObstacle_=(Lscala.Option;)V"]($.m["scala.None"])
         } else {
           /*<skip>*/
         }
-      }
+      };
+      arg$event.preventDefault()
     });
     Class.prototype["apply(O)O"] = (function(arg$v1) {
       this["apply(Lme.shadaj.collidium.MouseEvent;)V"](arg$v1);

@@ -31,6 +31,9 @@ trait DOMElement extends js.Object {
   var onmousedown: js.Function1[MouseEvent, Unit]
   var onmousemove: js.Function1[MouseEvent, Unit]
   var onmouseup: js.Function1[MouseEvent, Unit]
+
+  def pageXOffset: js.Number
+  def pageYOffset: js.Number
 }
 
 trait JQueryStatic extends js.Object {
@@ -102,6 +105,11 @@ trait Canvas2D extends js.Object {
 trait MouseEvent extends js.Object {
   val layerX: js.Number
   val layerY: js.Number
+  val pageX: js.Number
+  val pageY: js.Number
+  val clientX: js.Number
+  val clientY: js.Number
+  def preventDefault(): Unit
 }
 
 trait AudioElement extends DOMElement {

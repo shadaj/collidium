@@ -47,9 +47,14 @@ object Main {
     g.setInterval(tick, 20)
   }
 
-  val onMouseDown = (event: MouseEvent) => {
+  def location(event: MouseEvent): (js.Number, js.Number) = {
     val x = event.layerX
     val y = event.layerY
+    (x,y)
+  }
+
+  val onMouseDown = (event: MouseEvent) => {
+    val (x,y) = location(event)
     val xDiff = cannonLocation._1 - x
     val yDiff = cannonLocation._2 - y
     if (!board.started) {
@@ -62,11 +67,12 @@ object Main {
         drawingLine = true
       }
     }
+
+    event.preventDefault()
   }
 
   val onMouseMove = (event: MouseEvent) => {
-    val x = event.layerX
-    val y = event.layerY
+    val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       board.ball.location.x = x
       board.ball.location.y = y
@@ -76,11 +82,12 @@ object Main {
       curObstacle = Option(new Line(curObstacle.get.start, new Point(x, y), "white"))
       curObstacle.get.draw(canvas)
     }
+
+    event.preventDefault
   }
 
   val onMouseUp = (event: MouseEvent) => {
-    val x = event.layerX
-    val y = event.layerY
+    val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       board.ball.theta = board.slingOption.get.theta
       board.ball.magnitude = board.slingOption.get.magnitude / 40
@@ -95,6 +102,8 @@ object Main {
       drawingLine = false
       curObstacle = None
     }
+
+    event.preventDefault
   }
 }
 

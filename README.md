@@ -11,7 +11,7 @@ Launch the [game](http://collidium.shadaj.me)
 * Use sbt to build this project:
 
         $ sbt
-        sbt> package-local
+        sbt> package-js
 
 
 How to play

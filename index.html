@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<a href="https://github.com/shadaj/collidium-online" target="_new"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+<head>
+  <title>Collidium Online</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<h1>Collidium Online</h1>
+<audio hidden id="youWonAudio">
+	<source src="assets/YouWon.mp3" type="audio/mpeg" />
+</audio>
+<audio hidden loop id="backgroundAudio">
+	<source src="assets/backgroundMusic.ogg" type="audio/ogg" />
+ </audio>
+<div>
+	<p>Web version of <a href="https://github.com/shadaj/collidium" target="_new">Collidium</a> written in Scala.</p>
+	<p>Made possible by the AWESOME <a href="http://lampwww.epfl.ch/~doeraene/scala-js/" target="_new">scala.js!</a></p>
+	<p>Source code available <a href="http://github.com/shadaj/collidium-online" target="_new">here</a>
+    <h2>How to play:</h2>
+    <ul>
+    	<li>Before launching the ball by dragging from the green circle, you can draw obstacles that the ball will bounce off.</li>
+    	<li>Try to get the ball into the red circle!</li>
+    </ul>
+</div>
+
+<canvas id="canvas" width="500" height="500"></canvas>
+
+<script type="text/javascript" src="./js/scalajs-runtime.js"></script>
+<script type="text/javascript" src="./target/scala-2.10/collidium.js"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+$ScalaJSEnvironment.m["me.shadaj.collidium.Main"].main();
+//]]>
+</script>
+
+</body>
+</html>

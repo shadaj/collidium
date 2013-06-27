@@ -24,17 +24,34 @@
     	<li>Before launching the ball by dragging from the green circle, you can draw obstacles that the ball will bounce off.</li>
     	<li>Try to get the ball into the red circle!</li>
     </ul>
+  </p>
+  <img src="./assets/Loading_Key.gif" alt="Loading..." id="loadingImage" style="margin:250px"></img>
 </div>
 
 <canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
 
-<script type="text/javascript" src="./js/scalajs-runtime.js"></script>
-<script type="text/javascript" src="./target/scala-2.10/collidium.js"></script>
+<script>
+function startGame () {
+  document.getElementById("loadingImage").hidden = true
+  var collidiumScript = document.createElement("script")
+  collidiumScript.type="text/javascript"
+  collidiumScript.onload = function () {
+    startMain()
+  }
 
-<script type="text/javascript">
-//<![CDATA[
-$ScalaJSEnvironment.m["me.shadaj.collidium.Main"].main();
-//]]>
+  collidiumScript.async = true
+  collidiumScript.src = "./target/scala-2.10/collidium.js"
+  var body = document.getElementsByTagName("body")[0]
+  body.appendChild(collidiumScript)
+}
+</script>
+
+<script type="text/javascript" async onload="startGame()" src="./js/scalajs-runtime.js"></script>
+
+<script>
+  function startMain () {
+    $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].main();
+  }
 </script>
 
 </body>

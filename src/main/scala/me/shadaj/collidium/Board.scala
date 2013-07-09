@@ -1,6 +1,6 @@
 package me.shadaj.collidium
 
-class Board(val name: String, val cannonLocation: (Float, Float), val margin: Int, val walls: List[Sprite], val ball: Circle, val hole: Circle, val friction: Double) {
+class Board(val name: String, val maximumStretch: Int, val margin: Int, val walls: List[Sprite], val ball: Circle, val hole: Circle, val friction: Double) {
   var slingOption: Option[Sling] = None
   var started = false
   var obstacles = List[Sprite]()
@@ -15,10 +15,8 @@ class Board(val name: String, val cannonLocation: (Float, Float), val margin: In
     	Main.curObstacle.get.draw(canvas)
     }
     hole.draw(canvas)
-    if (started) {
-      ball.draw(canvas)
-    } else {
-      (new Circle(new Point(cannonLocation._1, cannonLocation._2), 50, "green")).draw(canvas)
+    ball.draw(canvas)
+    if (!started) {
       if (slingOption.isDefined) {
         slingOption.get.draw(canvas)
       }
@@ -45,7 +43,5 @@ class Board(val name: String, val cannonLocation: (Float, Float), val margin: In
       }
       ball.update
     }
-
-    //TODO: Add cursor in update
   }
 }

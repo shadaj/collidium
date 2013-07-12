@@ -117,4 +117,8 @@ trait AudioElement extends DOMElement {
   def pause()
 }
 
+trait JSON extends js.Object {
+  def parse(string: js.String): js.Dynamic
+}
+
 

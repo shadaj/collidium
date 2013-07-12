@@ -13,11 +13,42 @@ import Math._
 import Angle._
 
 object Main {
-  val board = new Board("baseLevel", 50, 5, List(new Line(new Point(10,10), new Point(490, 10), "white"),
-                                                         new Line(new Point(490,10), new Point(490, 490), "white"),
-                                                         new Line(new Point(490,490), new Point(10, 490), "white"),
-                                                         new Line(new Point(10,490), new Point(10, 10), "white")),
-                        new Circle(new Point(400,400), 10, "orange"), new Circle(new Point(100, 100), 50, "red"), 0)
+  def jsonToPoint(json: js.Dynamic) = {
+    new Point(json.applyDynamic("x")().toString.toInt, json.applyDynamic("y")().toString.toInt)
+  }
+
+  def jsonToSprite(json: js.Dynamic): Sprite = {
+    if (json.typ.toString == "line") {
+      new Line(jsonToPoint(json.start), jsonToPoint(json.end), json.color.toString)
+    } else if (json.typ.toString == "circle") {
+      new Circle(jsonToPoint(json.location), json.diameter.toString.toInt, json.color.toString)
+    } else {
+      null
+    }
+  }
+
+  def jsonToBoard(json: js.Dynamic) = {
+    val obstacleJSArray = json.obstacles.asInstanceOf[js.Array[js.Dynamic]]
+    val obstaclesArray: scala.Array[js.Dynamic] = obstacleJSArray
+
+    val obstacles = for (obstacle <- obstaclesArray) yield jsonToSprite(obstacle)
+
+    new Board(json.name.toString,
+              json.maximumStretch.toString.toInt,
+              json.margin.toString.toInt,
+              obstacles.toList,
+              jsonToSprite(json.ball).asInstanceOf[Circle],
+              jsonToSprite(json.hole).asInstanceOf[Circle],
+              json.friction.toString.toInt)
+  }
+
+  // val board = new Board("baseLevel", 50, 5, List(new Line(new Point(10,10), new Point(490, 10), "white"),
+  //                                                        new Line(new Point(490,10), new Point(490, 490), "white"),
+  //                                                        new Line(new Point(490,490), new Point(10, 490), "white"),
+  //                                                        new Line(new Point(10,490), new Point(10, 10), "white")),
+  //                       new Circle(new Point(400,400), 10, "orange"), new Circle(new Point(100, 100), 50, "red"), 0)
+
+  val board = jsonToBoard(g.JSON.asInstanceOf[JSON].parse(Levels.level0))
 
   var pullingRubber = false
 

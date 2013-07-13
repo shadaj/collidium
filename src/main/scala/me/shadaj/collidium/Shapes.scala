@@ -38,7 +38,6 @@ class Circle(var location: Point, val diameter: Int, color: String) extends Spri
     super.draw(canvas)
     canvas.beginPath
     val radius = diameter/2
-    // canvas.fillRect(location.x, location.y, radius, radius)
     canvas.arc(location.x, location.y, radius, 0, 2*PI, false)
     canvas.fill
   }

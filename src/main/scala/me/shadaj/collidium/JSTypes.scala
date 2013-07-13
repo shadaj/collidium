@@ -115,6 +115,7 @@ trait MouseEvent extends js.Object {
 trait AudioElement extends DOMElement {
   def play()
   def pause()
+  var currentTime: js.Number
 }
 
 trait JSON extends js.Object {

@@ -1,0 +1,160 @@
+var level0 = {
+	"name": "bob",
+	"maximumStretch": 50,
+	"margin": 5,
+	"obstacles": [
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 10,
+	    	"y": 10
+	    },
+	    "end": {
+	    	"x": 490,
+	    	"y": 10
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 490,
+	    	"y": 10
+	    },
+	    "end": {
+	    	"x": 490,
+	    	"y": 490
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 490,
+	    	"y": 490
+	    },
+	    "end": {
+	    	"x": 10,
+	    	"y": 490
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 10,
+	    	"y": 490
+	    },
+	    "end": {
+	    	"x": 10,
+	    	"y": 10
+	    },
+	    "color": "white"
+	  }
+	],
+	"ball": {
+		"typ": "circle",
+		"location": {
+			"x": 400,
+			"y": 400
+		},
+		"diameter": 10,
+		"color": "orange"
+	},
+	"hole": {
+		"typ": "circle",
+		"location": {
+			"x": 100,
+			"y": 100
+		},
+		"diameter": 50,
+		"color": "red"
+	},
+	"friction": 0
+}
+
+var level1 = {
+	"name": "bob",
+	"maximumStretch": 50,
+	"margin": 5,
+	"obstacles": [
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 10,
+	    	"y": 10
+	    },
+	    "end": {
+	    	"x": 490,
+	    	"y": 10
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 490,
+	    	"y": 10
+	    },
+	    "end": {
+	    	"x": 490,
+	    	"y": 490
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 490,
+	    	"y": 490
+	    },
+	    "end": {
+	    	"x": 10,
+	    	"y": 490
+	    },
+	    "color": "white"
+	  },
+	  {
+	  	"typ": "line",
+	    "start": {
+	    	"x": 10,
+	    	"y": 490
+	    },
+	    "end": {
+	    	"x": 10,
+	    	"y": 10
+	    },
+	    "color": "white"
+	  }, {
+	  	"typ": "line",
+	  	"start": {
+	  		"x": 100,
+	  		"y": 200
+	  	},
+	  	"end": {
+	  		"x": 200,
+	  		"y": 100
+	  	},
+	  	"color": "white"
+	  }
+	],
+	"ball": {
+		"typ": "circle",
+		"location": {
+			"x": 400,
+			"y": 400
+		},
+		"diameter": 10,
+		"color": "orange"
+	},
+	"hole": {
+		"typ": "circle",
+		"location": {
+			"x": 100,
+			"y": 100
+		},
+		"diameter": 50,
+		"color": "red"
+	},
+	"friction": 0
+}

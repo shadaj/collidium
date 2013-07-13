@@ -9,6 +9,7 @@
 
 <h1>Collidium Online</h1>
 <audio hidden id="youWonAudio">
+  <source src="assets/YouWon.ogg" type="audio/ogg" />
 	<source src="assets/YouWon.mp3" type="audio/mpeg" />
 </audio>
 <audio hidden loop id="backgroundAudio">
@@ -30,6 +31,14 @@
 
 <canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
 
+<select id="levelChooser">
+  <option value="level0">Level 0</option>
+  <option value="level1">Level 1</option>
+</select>
+<button type="button" onClick="jumpLevel()">Jump!</button>
+
+<script type="text/javascript" src="./levels.json"></script>
+
 <script>
 function startGame () {
   document.getElementById("loadingImage").hidden = true
@@ -43,6 +52,10 @@ function startGame () {
   collidiumScript.src = "./target/scala-2.10/collidium.js"
   var body = document.getElementsByTagName("body")[0]
   body.appendChild(collidiumScript)
+}
+
+function jumpLevel() {
+  $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].levelJump();
 }
 </script>
 

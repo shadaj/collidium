@@ -14,7 +14,7 @@ import Angle._
 
 object Main {
   def jsonToPoint(json: js.Dynamic) = {
-    new Point(json.applyDynamic("x")().toString.toInt, json.applyDynamic("y")().toString.toInt)
+    new Point(json.selectDynamic("x").toString.toInt, json.selectDynamic("y").toString.toInt)
   }
 
   def jsonToSprite(json: js.Dynamic): Sprite = {
@@ -42,13 +42,7 @@ object Main {
               json.friction.toString.toInt)
   }
 
-  // val board = new Board("baseLevel", 50, 5, List(new Line(new Point(10,10), new Point(490, 10), "white"),
-  //                                                        new Line(new Point(490,10), new Point(490, 490), "white"),
-  //                                                        new Line(new Point(490,490), new Point(10, 490), "white"),
-  //                                                        new Line(new Point(10,490), new Point(10, 10), "white")),
-  //                       new Circle(new Point(400,400), 10, "orange"), new Circle(new Point(100, 100), 50, "red"), 0)
-
-  val board = jsonToBoard(g.JSON.asInstanceOf[JSON].parse(Levels.level0))
+  var board = jsonToBoard(g.level0)
 
   var pullingRubber = false
 
@@ -75,6 +69,16 @@ object Main {
     canvasDom.onmousemove = onMouseMove
 
     g.setInterval(tick, 20)
+  }
+
+  def levelJump(): Unit = {
+    backgroundMusic.pause
+    backgroundMusic.currentTime = 0
+    youwonMusic.pause
+    youwonMusic.currentTime = 0
+    val levelChooser = g.document.getElementById("levelChooser")
+    val level = levelChooser.value.toString
+    board = jsonToBoard(g.selectDynamic(level))
   }
 
   def location(event: MouseEvent): (js.Number, js.Number) = {
@@ -141,7 +145,7 @@ object Main {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       board.ball.theta = board.slingOption.get.theta
-      board.ball.magnitude = board.slingOption.get.magnitude / 40
+      board.ball.magnitude = board.slingOption.get.magnitude / 20
       val fittedX = {
         if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
           board.slingOption.get.start.x - board.maximumStretch

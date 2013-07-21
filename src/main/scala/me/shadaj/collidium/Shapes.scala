@@ -27,19 +27,47 @@ abstract class Sprite(val color: String) {
   def update {
     move(next)
   }
+  def addToWorld(world: b2World): Unit
 }
 
-class Circle(var location: Point, val diameter: Int, color: String) extends Sprite(color) {
+class Circle(var location: Point, val diameter: Int, color: String, usePhysics: Boolean) extends Sprite(color) {
+  val body = b2BodyDef()
+  body.`type` = (g.Box2D.Dynamics.b2Body.b2_dynamicBody)
+  body.position = b2Vec2(location.x, location.y)
+
+  val circleShape = b2CircleShape(diameter/2.0)
+
+  val fixture = b2FixtureDef()
+  fixture.density = 1
+  fixture.shape = circleShape
+
+  var worldBody: b2Body = null
+  var worldFixture: b2Fixture = null
+
+  def addToWorld(world: b2World) {
+    worldBody = world.CreateBody(body)
+    worldFixture = worldBody.CreateFixture(fixture)
+  }
+
   def next = {
     new Point((location.x + deltaX), (location.y + deltaY))
   }
 
   override def draw(canvas: Canvas2D): Unit = {
-    super.draw(canvas)
-    canvas.beginPath
-    val radius = diameter/2
-    canvas.arc(location.x, location.y, radius, 0, 2*PI, false)
-    canvas.fill
+    if (worldBody == null) {
+      super.draw(canvas)
+      canvas.beginPath
+      val radius = diameter/2
+      canvas.arc(location.x, location.y, radius, 0, 2*PI, false)
+      canvas.fill
+    } else {
+      val worldLocation = worldBody.GetPosition()
+      super.draw(canvas)
+      canvas.beginPath
+      val radius = diameter/2
+      canvas.arc(worldLocation.x, (worldLocation.y), radius, 0, 2*PI, false)
+      canvas.fill
+    }
   }
   
   def colliding(sprite: Sprite) {
@@ -62,6 +90,29 @@ class Circle(var location: Point, val diameter: Int, color: String) extends Spri
 }
 
 class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
+  val body = b2BodyDef()
+  body.`type` = g.Box2D.Dynamics.b2Body.b2_staticbody
+  body.position = b2Vec2(500,0)
+
+  val polygonLine = g.eval("new Box2D.Collision.Shapes.b2PolygonShape()").asInstanceOf[b2PolygonShape]
+
+  val startVector = b2Vec2(start.x, start.y)
+  val endVector = b2Vec2(end.x, end.y)
+
+  polygonLine.SetAsVector(Array(startVector, endVector), 2)
+
+  val fixture = b2FixtureDef()
+  fixture.density = 1
+  fixture.shape = polygonLine
+
+  var worldBody: b2Body = null
+  var worldFixture: b2Fixture = null
+
+  def addToWorld(world: b2World) {
+    worldBody = world.CreateBody(body)
+    worldFixture = worldBody.CreateFixture(fixture)
+  }
+
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
   val magnitude = sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -82,6 +133,8 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
 
   def next = start
   var location = start
+
+
 
   override def draw(canvas: Canvas2D) {
     super.draw(canvas)

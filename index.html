@@ -55,11 +55,11 @@
 <script type="text/javascript" src="./levels.json"></script>
 <script>
 function startGame () {
-  document.getElementById("loadingImage").hidden = true
+  console.log("loading collidium")
   var collidiumScript = document.createElement("script")
   collidiumScript.type="text/javascript"
   collidiumScript.onload = function () {
-    startMain()
+    loadBox2D()
   }
 
   collidiumScript.async = true
@@ -69,7 +69,23 @@ function startGame () {
 }
 
 function jumpLevel() {
-  $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].levelJump();
+  ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().levelJump();
+}
+
+function loadBox2D () {
+  console.log("loading box2d")
+  document.getElementById("loadingImage").hidden = true
+  var box2DScript = document.createElement("script")
+  box2DScript.type="text/javascript"
+  box2DScript.onload = function () {
+  	console.log("loaded box2d")
+    startMain()
+  }
+
+  box2DScript.async = true
+  box2DScript.src = "./js/box2D.js"
+  var body = document.getElementsByTagName("body")[0]
+  body.appendChild(box2DScript)
 }
 </script>
 
@@ -77,7 +93,8 @@ function jumpLevel() {
 
 <script>
   function startMain () {
-    $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].main();
+  	console.log("starting game")
+    ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().main();
   }
 </script>
 </html>

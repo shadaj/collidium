@@ -21,7 +21,7 @@ object Main {
     if (json.typ.toString == "line") {
       new Line(jsonToPoint(json.start), jsonToPoint(json.end), json.color.toString)
     } else if (json.typ.toString == "circle") {
-      new Circle(jsonToPoint(json.location), json.diameter.toString.toInt, json.color.toString)
+      new Circle(jsonToPoint(json.location), json.diameter.toString.toInt, json.color.toString, json.usePhysics.toString.toBoolean)
     } else {
       null
     }

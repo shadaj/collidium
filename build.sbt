@@ -1,5 +1,6 @@
 // Turn this project into a Scala.js project by importing these settings
-scalaJSSettings
+
+scalaVersion := "2.10.2"
 
 scalaJSSettings
 

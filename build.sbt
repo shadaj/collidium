@@ -6,3 +6,9 @@ scalaJSSettings
 name := "collidium"
 
 version := "0.1-SNAPSHOT"
+
+unmanagedSources in (Compile, ScalaJSKeys.optimizeJS) <++= (
+    baseDirectory
+) map { base =>
+  Seq(base / "js" / "scalajs-runtime.js", base / "js" / "startup.js")
+}

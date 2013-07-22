@@ -13,6 +13,8 @@ import Math._
 import Angle._
 
 object Main {
+  var sandboxMode = false
+
   def jsonToPoint(json: js.Dynamic) = {
     new Point(json.selectDynamic("x").toString.toInt, json.selectDynamic("y").toString.toInt)
   }
@@ -67,7 +69,6 @@ object Main {
     canvasDom.onmousedown = onMouseDown
     canvasDom.onmouseup = onMouseUp
     canvasDom.onmousemove = onMouseMove
-
     g.setInterval(tick, 20)
   }
 
@@ -78,6 +79,11 @@ object Main {
     youwonMusic.currentTime = 0
     val levelChooser = g.document.getElementById("levelChooser")
     val level = levelChooser.value.toString
+    if (level == "sandbox") {
+      sandboxMode = true
+    } else {
+      sandboxMode = false
+    }
     board = jsonToBoard(g.selectDynamic(level))
   }
 
@@ -87,7 +93,7 @@ object Main {
     (x,y)
   }
 
-  val onMouseDown = (event: MouseEvent) => {
+  val onMouseDown: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     val xDiff = board.ball.location.x - x
     val yDiff = board.ball.location.y - y
@@ -96,16 +102,16 @@ object Main {
         board.slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
         board.ball.location.x = x
         board.ball.location.y = y
-      } else {
+      } else if (sandboxMode) {
         curObstacle = Option(new Line(new Point(x, y), new Point(x, y), "white"))
         drawingLine = true
       }
     }
 
-    event.preventDefault()
+    false
   }
 
-  val onMouseMove = (event: MouseEvent) => {
+  val onMouseMove: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       val fittedX = {
@@ -138,10 +144,10 @@ object Main {
       curObstacle.get.draw(canvas)
     }
 
-    event.preventDefault
+    false
   }
 
-  val onMouseUp = (event: MouseEvent) => {
+  val onMouseUp: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       board.ball.theta = board.slingOption.get.theta
@@ -174,12 +180,13 @@ object Main {
       backgroundMusic.play()
     } else if (drawingLine && curObstacle.isDefined) {
       curObstacle = Option(new Line(curObstacle.get.start, new Point(x, y), "white"))
+      // println(curObstacle.get)
       board.obstacles = curObstacle.get :: board.obstacles
       drawingLine = false
       curObstacle = None
     }
 
-    event.preventDefault
+    false
   }
 }
 

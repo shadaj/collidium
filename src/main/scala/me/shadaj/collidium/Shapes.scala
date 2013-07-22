@@ -61,7 +61,7 @@ class Circle(var location: Point, val diameter: Int, color: String) extends Spri
   var magnitude = 0D
 }
 
-class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
+class Line(val start: Point, val end: Point, color: String, lineWidth: Int = 5) extends Sprite(color) {
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
   val magnitude = sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -85,6 +85,7 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
 
   override def draw(canvas: Canvas2D) {
     super.draw(canvas)
+    canvas.lineWidth = lineWidth
     canvas.beginPath
     canvas.moveTo(start.x,start.y)
     canvas.lineTo(end.x,end.y)
@@ -144,6 +145,10 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
   def height = 0
   def width = 0
   def bounds = (start, end)
+
+  override def toString = {
+    s"Line($start, $end, $color)"
+  }
 }
 
-class Sling(start: Point, end: Point, color: String) extends Line(start, end, color)
+class Sling(start: Point, end: Point, color: String) extends Line(start, end, color, 2)

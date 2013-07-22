@@ -28,9 +28,11 @@ trait DOMElement extends js.Object {
 
   def appendChild(child: DOMElement): Unit
 
-  var onmousedown: js.Function1[MouseEvent, Unit]
-  var onmousemove: js.Function1[MouseEvent, Unit]
-  var onmouseup: js.Function1[MouseEvent, Unit]
+  var onmousedown: js.Function1[MouseEvent, Boolean]
+  var onmousemove: js.Function1[MouseEvent, Boolean]
+  var onmouseup: js.Function1[MouseEvent, Boolean]
+
+  def addEventListener(event: js.String, toDo: js.Function1[js.Dynamic, Boolean], someBoolean: Boolean)
 
   def pageXOffset: js.Number
   def pageYOffset: js.Number

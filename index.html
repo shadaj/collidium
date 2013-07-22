@@ -29,9 +29,8 @@
 				    <h2>How to play:</h2>
 				    <ul>
 				      	<li>Choose a level using the combobox and the jump button</li>
-				    	<li>Before launching the orange ball by it back, you can draw obstacles that the ball will bounce off.</li>
 			    		<li>Try to get the ball into the red circle!</li>
-			      		<li>More levels coming soon!</li>
+			    		<li><b>In Sandbox Mode</b>: Before launching the orange ball by it pulling it back, you can draw obstacles that the ball will bounce off.</li>
 			    	</ul>
 			  		<img src="./assets/Loading_Key.gif" alt="Loading..." id="loadingImage" style="margin:250px"></img>
 				</div>
@@ -39,8 +38,11 @@
 				<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
 				<div class="controls">
 					<select id="levelChooser">
-				  		<option value="level0">Level 0</option>
-				  		<option value="level1">Level 1</option>
+				  		<option value="level0">Straight Shooter</option>
+				  		<option value="level1">Gotta Go Around</option>
+				  		<option value="level2">Trapezoid Land</option>
+				  		<option value="level3">Crisscross</option>
+				  		<option value="sandbox">Sandbox - Create your own levels</option>
 					</select>
 					<a class="btn btn-inverse" onClick="jumpLevel()">Jump!</a>
 				</div>
@@ -54,8 +56,6 @@
 </body>
 <script type="text/javascript" src="./levels.json"></script>
 <script>
-function startGame () {
-  document.getElementById("loadingImage").hidden = true
   var collidiumScript = document.createElement("script")
   collidiumScript.type="text/javascript"
   collidiumScript.onload = function () {
@@ -63,21 +63,16 @@ function startGame () {
   }
 
   collidiumScript.async = true
-  collidiumScript.src = "./target/scala-2.10/collidium.js"
+  collidiumScript.src = "./target/scala-2.10/collidium-opt.js"
   var body = document.getElementsByTagName("body")[0]
   body.appendChild(collidiumScript)
-}
-
-function jumpLevel() {
-  $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].levelJump();
-}
 </script>
 
-<script type="text/javascript" async onload="startGame()" src="./js/scalajs-runtime.js"></script>
+<!-- <script type="text/javascript" async onload="startGame()" src="./js/scalajs-runtime.js"></script> -->
 
 <script>
   function startMain () {
-    $ScalaJSEnvironment.m["me.shadaj.collidium.Main"].main();
+  	document.getElementById("loadingImage").hidden = true
   }
 </script>
 </html>

@@ -94,8 +94,9 @@ object Main {
     if (!board.started) {
       if ((xDiff * xDiff) + (yDiff * yDiff) <= (board.ball.diameter * board.ball.diameter)) {
         board.slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
-        board.ball.location.x = x
-        board.ball.location.y = y
+
+        board.ball.worldBody.GetPosition.set_x(x)
+        board.ball.worldBody.GetPosition.set_y(500 - y)
       } else {
         curObstacle = Option(new Line(new Point(x, y), new Point(x, y), "white"))
         drawingLine = true
@@ -128,8 +129,8 @@ object Main {
         }
       }
 
-      board.ball.location.x = fittedX
-      board.ball.location.y = fittedY
+      board.ball.worldBody.GetPosition.set_x(fittedX)
+      board.ball.worldBody.GetPosition.set_y(500 - fittedY)
 
       board.slingOption = Option(new Sling(board.slingOption.get.start, new Point(fittedX, fittedY), "white"))
       board.slingOption.get.draw(canvas)
@@ -144,8 +145,6 @@ object Main {
   val onMouseUp = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
-      board.ball.theta = board.slingOption.get.theta
-      board.ball.magnitude = board.slingOption.get.magnitude / 20
       val fittedX = {
         if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
           board.slingOption.get.start.x - board.maximumStretch
@@ -166,15 +165,19 @@ object Main {
         }
       }
 
-      board.ball.location.x = fittedX
-      board.ball.location.y = fittedY
+      board.ball.worldBody.GetPosition.set_x(fittedX)
+      board.ball.worldBody.GetPosition.set_y(500 - fittedY)
 
+      board.ball.makeMovable
+      println(board.slingOption.get.deltaX)
+      board.ball.worldBody.ApplyLinearImpulse(b2Vec2(-10000000000 * board.slingOption.get.deltaX, 10000000000 * board.slingOption.get.deltaY), board.ball.worldBody.GetWorldCenter())
       pullingRubber = false
       board.started = true
       backgroundMusic.play()
     } else if (drawingLine && curObstacle.isDefined) {
       curObstacle = Option(new Line(curObstacle.get.start, new Point(x, y), "white"))
       board.obstacles = curObstacle.get :: board.obstacles
+      board.obstacles.head.addToWorld(board.world)
       drawingLine = false
       curObstacle = None
     }

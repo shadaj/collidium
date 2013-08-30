@@ -8,32 +8,11 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   var obstacles = List[Sprite]()
   var winnable = true
 
-  val world = b2World(b2Vec2(0.0,0.75))
-
-  val ground = b2FixtureDef()
-  ground.density = 0.5
-  ground.friction = 0.0
-
-  val groundBody = b2BodyDef()
-  groundBody.asInstanceOf[js.Dynamic].updateDynamic("type")(g.Box2D.Dynamics.b2Body.b2_staticBody)
-
-  val polygon = g.eval("new Box2D.Collision.Shapes.b2PolygonShape()").asInstanceOf[b2PolygonShape]
-  polygon.SetAsBox(250, 2)
-
-  ground.shape = polygon
-  ground.m_shape = polygon
-
-  groundBody.position = b2Vec2(250, 2)
-  world.CreateBody(groundBody).CreateFixture(ground)
+  val world = b2World(b2Vec2(0.0,0.0))
 
   ball.addToWorld(world)
 
   walls.foreach(_.addToWorld(world))
-
-  val ballFixture = ball.worldFixture
-  val ballBody = ballFixture.asInstanceOf[js.Dynamic].selectDynamic("GetBody")().asInstanceOf[b2Body]
-  ballBody.ApplyImpulse(b2Vec2(-100000, -100000), ballFixture.asInstanceOf[js.Dynamic].selectDynamic("GetBody")().asInstanceOf[b2Body].GetWorldCenter())
-
 
   def paint(canvas: Canvas2D) {
     canvas.fillStyle = "black"
@@ -53,26 +32,12 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   }
 
   def update {
-    // if (started) {
-    //   if (ball.magnitude >= 0.01) {
-    //     ball.magnitude = ball.magnitude - friction
-    //   }
-    //   walls.foreach { wall =>
-    //     wall.colliding(ball)
-    //   }
-    //   obstacles.foreach { obstacle =>
-    //     obstacle.colliding(ball)
-    //   }
-    //   if (hole.inBoundsOf(ball) && winnable == true) {
-    //     println("You Won!")
-    //     Main.backgroundMusic.pause
-    //     Main.youwonMusic.play
-    //     winnable = false
-    //     ball.magnitude = 0
-    //   }
-    //   ball.update
-    // }
-
+      if (hole.inBoundsOf(ball) && winnable == true) {
+        Main.backgroundMusic.pause
+        Main.youwonMusic.play
+        winnable = false
+        ball.freeze
+      }
     world.Step(2.0/60.0, 8, 3)
   }
 }

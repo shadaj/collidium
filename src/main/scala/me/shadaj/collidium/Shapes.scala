@@ -17,40 +17,36 @@ abstract class Sprite(val color: String) {
     canvas.fillStyle = color
     canvas.strokeStyle = color
   }
-  def colliding(sprite: Sprite): Unit
-  var theta: Double = 0
   var location: Point
-  def next: Point
-  def move(to: Point) {
-    location = to
-  }
-  def update {
-    move(next)
-  }
   def addToWorld(world: b2World): Unit
 }
 
 class Circle(var location: Point, val diameter: Int, color: String, usePhysics: Boolean) extends Sprite(color) {
   val body = b2BodyDef()
-  body.`type` = (g.Box2D.Dynamics.b2Body.b2_dynamicBody)
-  body.position = b2Vec2(location.x, location.y)
+  body.set_type(g.Box2D.b2_staticBody)
+  body.set_position(b2Vec2(location.x, 500 - location.y))
 
-  val circleShape = b2CircleShape(diameter/2.0)
+  val circleShape = b2CircleShape()
+  circleShape.asInstanceOf[js.Dynamic].set_m_radius(diameter/2)
 
   val fixture = b2FixtureDef()
-  fixture.density = 1
-  fixture.shape = circleShape
+  fixture.set_shape(circleShape.asInstanceOf[b2Shape])
+  fixture.set_restitution(1.0)
 
   var worldBody: b2Body = null
   var worldFixture: b2Fixture = null
 
   def addToWorld(world: b2World) {
     worldBody = world.CreateBody(body)
-    worldFixture = worldBody.CreateFixture(fixture)
+    worldBody.CreateFixture(fixture)
   }
 
-  def next = {
-    new Point((location.x + deltaX), (location.y + deltaY))
+  def makeMovable: Unit = {
+    worldBody.SetType(g.Box2D.b2_dynamicBody)
+  }
+
+  def freeze: Unit = {
+    worldBody.SetType(g.Box2D.b2_staticBody)
   }
 
   override def draw(canvas: Canvas2D): Unit = {
@@ -65,17 +61,14 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
       super.draw(canvas)
       canvas.beginPath
       val radius = diameter/2
-      canvas.arc(worldLocation.x, (worldLocation.y), radius, 0, 2*PI, false)
+      canvas.arc(worldLocation.get_x, 500 - worldLocation.get_y, radius, 0, 2*PI, false)
       canvas.fill
     }
   }
   
-  def colliding(sprite: Sprite) {
-  }
-  
   def inBoundsOf(circle: Circle) = {
-    val xshift = circle.location.x - location.x
-    val yshift = circle.location.y - location.y
+    val xshift = circle.worldBody.GetPosition.get_x - location.x
+    val yshift = (500 - circle.worldBody.GetPosition.get_y) - location.y
     val deltaDiameter = (diameter - circle.diameter)/2
     if (circle.diameter > diameter) {
       false
@@ -83,27 +76,22 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
       true
     } else false
   }
-
-  def deltaX = Math.cos(theta) * magnitude
-  def deltaY = Math.sin(theta) * magnitude
-  var magnitude = 0D
 }
 
 class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
   val body = b2BodyDef()
-  body.`type` = g.Box2D.Dynamics.b2Body.b2_staticbody
-  body.position = b2Vec2(500,0)
+  body.asInstanceOf[js.Dynamic].set_type(g.Box2D.b2Body.b2_staticBody)
+  val polygonLine = g.eval("new Box2D.b2EdgeShape()")
 
-  val polygonLine = g.eval("new Box2D.Collision.Shapes.b2PolygonShape()").asInstanceOf[b2PolygonShape]
+  val startVector = b2Vec2(start.x, 500 - start.y)
+  val endVector = b2Vec2(end.x, 500 - end.y)
 
-  val startVector = b2Vec2(start.x, start.y)
-  val endVector = b2Vec2(end.x, end.y)
-
-  polygonLine.SetAsVector(Array(startVector, endVector), 2)
+  polygonLine.Set(startVector, endVector)
 
   val fixture = b2FixtureDef()
-  fixture.density = 1
-  fixture.shape = polygonLine
+  fixture.set_shape(polygonLine.asInstanceOf[b2Shape])
+  fixture.set_restitution(1.0)
+
 
   var worldBody: b2Body = null
   var worldFixture: b2Fixture = null
@@ -115,26 +103,8 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
 
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
-  val magnitude = sqrt(deltaX * deltaX + deltaY * deltaY)
-  val m = deltaY / deltaX
-  
-  val c = start.y - (start.x * m)
-  def y = (x: Double) => m * x + c // mx + c
-  val minX = start.x min end.x
-  val maxX = start.x max end.x
-  val minY = start.y min end.y
-  val maxY = start.y max end.y
 
-  theta = atan(m)
-  
-  if (start.x < end.x) {
-    theta = theta + (180 deg)
-  }
-
-  def next = start
   var location = start
-
-
 
   override def draw(canvas: Canvas2D) {
     super.draw(canvas)
@@ -143,60 +113,6 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
     canvas.lineTo(end.x,end.y)
     canvas.stroke
   }
-
-  def intersects(line: Line) = {
-    if (abs(line.m - m) < 0.001) {
-      None // Parallel lines
-    } else if(line.m > 1000000 || line.m < -1000000) { //need to fix for straight up lines using isInfinite
-      val intersectionY = y(line.minX)
-      if (line.maxY > intersectionY && line.minY < intersectionY) {
-        Option(new Point(line.minX, intersectionY))
-      } else {
-        None
-      }
-    } else {
-      val (intersectionX, intersectionY) = if (m > 1000000 || m < -1000000) { //need to fix again as above
-        val intersectionX = start.x
-        val intersectionY = line.y(intersectionX)
-        (intersectionX, intersectionY)
-      } else {
-        val intersectionX = (line.c - c) / (m - line.m)
-        val intersectionY = y(intersectionX)
-        (intersectionX, intersectionY)
-      }
-      if (intersectionX >= line.minX && intersectionX <= line.maxX && intersectionY >= line.minY && intersectionY <= line.maxY
-          && intersectionX >= minX && intersectionX <= maxX && intersectionY >= minY && intersectionY <= maxY) {
-        Option(new Point(intersectionX, intersectionY))
-      } else {
-        None
-      }
-    }
-  }
-  def colliding(sprite: Sprite) {
-    val spriteLine = new Line(sprite.location, sprite.next, sprite.color)
-    intersects(spriteLine) match {
-      case Some(point) =>
-        sprite.move(point)
-        sprite.theta = (2 * theta) - sprite.theta 
-      case None =>
-    }
-  }
-  
-  def colliding(circle: Circle) {
-    val spriteLine = new Line(circle.location, circle.next, circle.color)
-    intersects(spriteLine) match {
-      case Some(point) =>
-        val radius = circle.diameter / 2
-        val movePoint = new Point(point.x - (cos(circle.theta)*radius), point.y - (sin(circle.theta)*radius))
-        circle.move(movePoint)
-        circle.theta = (2 * theta) - circle.theta 
-      case None =>
-    }
-  }
-
-  def height = 0
-  def width = 0
-  def bounds = (start, end)
 }
 
 class Sling(start: Point, end: Point, color: String) extends Line(start, end, color)

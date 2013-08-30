@@ -5,6 +5,6 @@ target/
 .settings/
 project/project/
 project/target/
-js/
+js/scala*
 node_modules/
 server.js

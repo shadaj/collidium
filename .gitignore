@@ -8,3 +8,4 @@ target/scala-2.10/cache/
 target/scala-2.10/classes/
 target/scala-2.10/collidium.js.map
 target/streams/
+target/scalastyle-result.xml

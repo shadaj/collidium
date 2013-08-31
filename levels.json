@@ -59,7 +59,8 @@ var level0 = {
 			"y": 400
 		},
 		"diameter": 10,
-		"color": "orange"
+		"color": "orange",
+		"usePhysics": "true"
 	},
 	"hole": {
 		"typ": "circle",
@@ -68,7 +69,8 @@ var level0 = {
 			"y": 100
 		},
 		"diameter": 50,
-		"color": "red"
+		"color": "red",
+		"usePhysics": "false"
 	},
 	"friction": 0
 }
@@ -145,7 +147,8 @@ var level1 = {
 			"y": 400
 		},
 		"diameter": 10,
-		"color": "orange"
+		"color": "orange",
+		"usePhysics": "true"
 	},
 	"hole": {
 		"typ": "circle",
@@ -154,7 +157,8 @@ var level1 = {
 			"y": 100
 		},
 		"diameter": 50,
-		"color": "red"
+		"color": "red",
+		"usePhysics": "false"
 	},
 	"friction": 0
 }
@@ -231,7 +235,8 @@ var level2 = {
 			"y": 400
 		},
 		"diameter": 10,
-		"color": "orange"
+		"color": "orange",
+		"usePhysics": true
 	},
 	"hole": {
 		"typ": "circle",
@@ -240,7 +245,8 @@ var level2 = {
 			"y": 100
 		},
 		"diameter": 50,
-		"color": "red"
+		"color": "red",
+		"usePhysics": false
 	},
 	"friction": 0
 }
@@ -350,7 +356,8 @@ var level3 = {
 			"y": 400
 		},
 		"diameter": 10,
-		"color": "orange"
+		"color": "orange",
+		"usePhysics": true
 	},
 	"hole": {
 		"typ": "circle",
@@ -359,7 +366,8 @@ var level3 = {
 			"y": 100
 		},
 		"diameter": 50,
-		"color": "red"
+		"color": "red",
+		"usePhysics": false
 	},
 	"friction": 0
 }
@@ -425,7 +433,8 @@ var sandbox = {
 			"y": 400
 		},
 		"diameter": 10,
-		"color": "orange"
+		"color": "orange",
+		"usePhysics": "true"
 	},
 	"hole": {
 		"typ": "circle",
@@ -434,7 +443,8 @@ var sandbox = {
 			"y": 100
 		},
 		"diameter": 50,
-		"color": "red"
+		"color": "red",
+		"usePhysics": false
 	},
 	"friction": 0
 }

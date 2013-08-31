@@ -55,6 +55,7 @@
 	</div>
 </body>
 <script type="text/javascript" src="./levels.json"></script>
+<script type="text/javascript" src="./js/box2d.js"></script>
 <script>
   var collidiumScript = document.createElement("script")
   collidiumScript.type="text/javascript"
@@ -67,8 +68,6 @@
   var body = document.getElementsByTagName("body")[0]
   body.appendChild(collidiumScript)
 </script>
-
-<!-- <script type="text/javascript" async onload="startGame()" src="./js/scalajs-runtime.js"></script> -->
 
 <script>
   function startMain () {

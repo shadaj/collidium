@@ -123,5 +123,3 @@ trait AudioElement extends DOMElement {
 trait JSON extends js.Object {
   def parse(string: js.String): js.Dynamic
 }
-
-

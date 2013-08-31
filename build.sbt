@@ -1,14 +1,16 @@
 // Turn this project into a Scala.js project by importing these settings
-scalaJSSettings
+
+scalaVersion := "2.10.2"
 
 scalaJSSettings
+
+org.scalastyle.sbt.ScalastylePlugin.Settings
 
 name := "collidium"
 
 version := "0.1-SNAPSHOT"
 
-unmanagedSources in (Compile, ScalaJSKeys.optimizeJS) <++= (
-    baseDirectory
-) map { base =>
-  Seq(base / "js" / "scalajs-runtime.js", base / "js" / "startup.js")
-}
+unmanagedSources in (Compile, ScalaJSKeys.packageJS) <+=
+    baseDirectory.map(_ / "js" / "startup.js")
+
+ScalaJSKeys.optimizeJSExterns <+= baseDirectory.map(_ / "js" / "box2d.js")

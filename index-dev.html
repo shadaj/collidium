@@ -1,67 +1,32 @@
 <!DOCTYPE html>
 <html>
+	<link href="http://shadaj.me/bootstrap.css" rel="stylesheet">
 
-<link href="http://shadaj.me/bootstrap.css" rel="stylesheet">
+	<head>
+	  <title>Collidium Online</title>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body id="main"></body>
 
-<head>
-  <title>Collidium Online</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-	<div class="container">
-		<div class="row-fluid">
-			<div class="span9">
-				<audio hidden id="youWonAudio">
-				  	<source src="assets/YouWon.ogg" type="audio/ogg" />
-					<source src="assets/YouWon.mp3" type="audio/mpeg" />
-				</audio>
-				<audio hidden loop id="backgroundAudio">
-					<source src="assets/backgroundMusic.ogg" type="audio/ogg" />
-				 	<source src="assets/backgroundMusic.mp3" type="audio/mpeg" />
-				</audio>
-				<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
-				<div class="controls">
-					<select id="levelChooser">
-				  		<option value="level0">Level 0</option>
-				  		<option value="level1">Level 1</option>
-				  		<option value="level2">Level 2</option>
-				  		<option value="level3">Level 3</option>
-				  		<option value="sandbox">Sandbox - Create your own levels</option>
-					</select>
-					<a class="btn btn-inverse" onClick="jumpLevel()">Jump!</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-<script type="text/javascript" src="./levels.json"></script>
-<script>
-function startGame () {
-  var collidiumScript = document.createElement("script")
-  collidiumScript.type="text/javascript"
-  collidiumScript.onload = function () {
-    startMain()
-  }
+	<script type="text/javascript" src="http://shadaj.me/js/jquery.js"></script>
+	<script type="text/javascript" src="./levels.json"></script>
+	<script type="text/javascript" src="./js/box2d.js"></script>
+	<script>
+		function jumpLevel() {
+	  		ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().levelJump();
+		}
 
-  collidiumScript.async = true
-  collidiumScript.src = "./target/scala-2.10/collidium.js"
-  var body = document.getElementsByTagName("body")[0]
-  body.appendChild(collidiumScript)
-}
+		$("#main").load("./mainBody.html #mainBody", function(response, status, xhr) {
+			var collidiumScript = document.createElement("script")
+	  		collidiumScript.type="text/javascript"
+	  		collidiumScript.onload = function () {
+	  			document.getElementById("loadingImage").hidden = true
+	  			ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().main();
+	  		}
 
-function jumpLevel() {
-  ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().levelJump();
-}
-</script>
-
-<script type="text/javascript" async onload="startGame()" src="./js/scalajs-runtime.js"></script>
-
-<script>
-  function startMain () {
-  	// document.ontouchstart = function(e){ 
-   //    e.preventDefault(); 
-   //  }
-    ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().main();
-  }
-</script>
+	  		collidiumScript.src = "./target/scala-2.10/collidium.js"
+	  		var body = document.getElementsByTagName("body")[0]
+	  		body.appendChild(collidiumScript)
+		})
+	</script>
 </html>

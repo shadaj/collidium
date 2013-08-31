@@ -3,48 +3,13 @@ package me.shadaj.collidium
 import js.Dynamic.{ global => g }
 import scala.js._
 
-import scala.language.implicitConversions
-
 import scala.annotation.tailrec
 import scala.js
-
-import Math._
-
-import Angle._
 
 object Main {
   var sandboxMode = false
 
-  def jsonToPoint(json: js.Dynamic) = {
-    new Point(json.selectDynamic("x").toString.toInt, json.selectDynamic("y").toString.toInt)
-  }
-
-  def jsonToSprite(json: js.Dynamic): Sprite = {
-    if (json.typ.toString == "line") {
-      new Line(jsonToPoint(json.start), jsonToPoint(json.end), json.color.toString)
-    } else if (json.typ.toString == "circle") {
-      new Circle(jsonToPoint(json.location), json.diameter.toString.toInt, json.color.toString)
-    } else {
-      null
-    }
-  }
-
-  def jsonToBoard(json: js.Dynamic) = {
-    val obstacleJSArray = json.obstacles.asInstanceOf[js.Array[js.Dynamic]]
-    val obstaclesArray: scala.Array[js.Dynamic] = obstacleJSArray
-
-    val obstacles = for (obstacle <- obstaclesArray) yield jsonToSprite(obstacle)
-
-    new Board(json.name.toString,
-              json.maximumStretch.toString.toInt,
-              json.margin.toString.toInt,
-              obstacles.toList,
-              jsonToSprite(json.ball).asInstanceOf[Circle],
-              jsonToSprite(json.hole).asInstanceOf[Circle],
-              json.friction.toString.toInt)
-  }
-
-  var board = jsonToBoard(g.level0)
+  var board = BoardLoader.jsonToBoard(g.level0)
 
   var pullingRubber = false
 
@@ -60,6 +25,10 @@ object Main {
   val youwonMusic = g.document.getElementById("youWonAudio").asInstanceOf[AudioElement]
   val backgroundMusic = g.document.getElementById("backgroundAudio").asInstanceOf[AudioElement]
 
+  val TICK_INTERVAL = 20
+  val SCREEN_SIZE = 500
+  val FORCE_SCALE = 10000000000L
+
   def main(): Unit = {
     val tick = () => {
       board.paint(canvas)
@@ -69,7 +38,7 @@ object Main {
     canvasDom.onmousedown = onMouseDown
     canvasDom.onmouseup = onMouseUp
     canvasDom.onmousemove = onMouseMove
-    g.setInterval(tick, 20)
+    g.setInterval(tick, TICK_INTERVAL)
   }
 
   def levelJump(): Unit = {
@@ -79,18 +48,12 @@ object Main {
     youwonMusic.currentTime = 0
     val levelChooser = g.document.getElementById("levelChooser")
     val level = levelChooser.value.toString
-    if (level == "sandbox") {
-      sandboxMode = true
-    } else {
-      sandboxMode = false
-    }
-    board = jsonToBoard(g.selectDynamic(level))
+    sandboxMode = (level == "sandbox")
+    board = BoardLoader.jsonToBoard(g.selectDynamic(level))
   }
 
   def location(event: MouseEvent): (js.Number, js.Number) = {
-    val x = event.layerX
-    val y = event.layerY
-    (x,y)
+    (event.layerX, event.layerY)
   }
 
   val onMouseDown: MouseEvent => js.Boolean = (event: MouseEvent) => {
@@ -100,8 +63,8 @@ object Main {
     if (!board.started) {
       if ((xDiff * xDiff) + (yDiff * yDiff) <= (board.ball.diameter * board.ball.diameter)) {
         board.slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
-        board.ball.location.x = x
-        board.ball.location.y = y
+        board.ball.worldBody.get.GetPosition.set_x(x)
+        board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - y)
       } else if (sandboxMode) {
         curObstacle = Option(new Line(new Point(x, y), new Point(x, y), "white"))
         drawingLine = true
@@ -134,8 +97,8 @@ object Main {
         }
       }
 
-      board.ball.location.x = fittedX
-      board.ball.location.y = fittedY
+      board.ball.worldBody.get.GetPosition.set_x(fittedX)
+      board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - fittedY)
 
       board.slingOption = Option(new Sling(board.slingOption.get.start, new Point(fittedX, fittedY), "white"))
       board.slingOption.get.draw(canvas)
@@ -150,8 +113,6 @@ object Main {
   val onMouseUp: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
-      board.ball.theta = board.slingOption.get.theta
-      board.ball.magnitude = board.slingOption.get.magnitude / 20
       val fittedX = {
         if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
           board.slingOption.get.start.x - board.maximumStretch
@@ -172,16 +133,25 @@ object Main {
         }
       }
 
-      board.ball.location.x = fittedX
-      board.ball.location.y = fittedY
+      board.ball.worldBody.get.GetPosition.set_x(fittedX)
+      board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - fittedY)
 
+      board.slingOption = Option(new Sling(board.slingOption.get.start, new Point(fittedX, fittedY), "white"))
+      board.slingOption.get.draw(canvas)
+
+      board.ball.makeMovable
+      val xForce = -FORCE_SCALE * board.slingOption.get.deltaX
+      println(s"x: $xForce")
+      val yForce = FORCE_SCALE * board.slingOption.get.deltaY
+      println(s"y: $yForce")
+      board.ball.worldBody.get.ApplyLinearImpulse(b2Vec2(xForce,yForce),
+                                                  board.ball.worldBody.get.GetWorldCenter())
       pullingRubber = false
       board.started = true
       backgroundMusic.play()
     } else if (drawingLine && curObstacle.isDefined) {
-      curObstacle = Option(new Line(curObstacle.get.start, new Point(x, y), "white"))
-      // println(curObstacle.get)
-      board.obstacles = curObstacle.get :: board.obstacles
+      board.obstacles = (new Line(curObstacle.get.start, new Point(x, y), "white")) :: board.obstacles
+      board.obstacles.head.addToWorld(board.world)
       drawingLine = false
       curObstacle = None
     }
@@ -189,4 +159,3 @@ object Main {
     false
   }
 }
-

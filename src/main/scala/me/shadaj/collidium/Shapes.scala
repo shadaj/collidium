@@ -81,7 +81,7 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
 class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
   val body = b2BodyDef()
   body.asInstanceOf[js.Dynamic].set_type(g.Box2D.b2Body.b2_staticBody)
-  val polygonLine = g.eval("new Box2D.b2EdgeShape()")
+  val polygonLine = b2EdgeShape()
 
   val startVector = b2Vec2(start.x, 500 - start.y)
   val endVector = b2Vec2(end.x, 500 - end.y)
@@ -108,6 +108,7 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
 
   override def draw(canvas: Canvas2D) {
     super.draw(canvas)
+    canvas.lineWidth = 2
     canvas.beginPath
     canvas.moveTo(start.x,start.y)
     canvas.lineTo(end.x,end.y)

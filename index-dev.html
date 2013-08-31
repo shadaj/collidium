@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <title>Collidium Online</title>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body>
+		<audio hidden id="youWonAudio">
+		  	<source src="assets/YouWon.ogg" type="audio/ogg" />
+			<source src="assets/YouWon.mp3" type="audio/mpeg" />
+		</audio>
+		<audio hidden loop id="backgroundAudio">
+			<source src="assets/backgroundMusic.ogg" type="audio/ogg" />
+		 	<source src="assets/backgroundMusic.mp3" type="audio/mpeg" />
+		</audio>
+		<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
+			<select id="levelChooser">
+		  		<option value="level0">Level 0</option>
+		  		<option value="level1">Level 1</option>
+		  		<option value="level2">Level 2</option>
+		  		<option value="level3">Level 3</option>
+		 		<option value="sandbox">Sandbox - Create your own levels</option>
+			</select>
+			<a onClick="jumpLevel()">Jump!</a>
+	</body>
+	<script type="text/javascript" src="./levels.json"></script>
+	<script>
+		function loadGame () {
+	  		var collidiumScript = document.createElement("script")
+	  		collidiumScript.type="text/javascript"
+	  		collidiumScript.onload = function () {
+	  			console.log("loaded collidium")
+	    		startMain()
+	  		}
+
+	  		collidiumScript.async = true
+	  		collidiumScript.src = "./target/scala-2.10/collidium.js"
+	  		var body = document.getElementsByTagName("body")[0]
+	  		body.appendChild(collidiumScript)
+		}
+
+		function loadBox2D () {
+	  		console.log("loading box2d")
+	  		var box2DScript = document.createElement("script")
+	  		box2DScript.type="text/javascript"
+	  		box2DScript.onload = function () {
+	  			console.log("loaded box2d")
+	    		loadGame()
+	  		}
+
+	  		box2DScript.async = true
+	  		box2DScript.src = "./js/box2d.js"
+	  		var body = document.getElementsByTagName("body")[0]
+	  		body.appendChild(box2DScript)
+		}
+
+		function jumpLevel() {
+	  		ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().levelJump();
+		}
+
+	  	function startMain () {
+	    	ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().main();
+	  	}
+
+		loadBox2D()
+	</script>
+</html>

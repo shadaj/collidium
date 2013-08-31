@@ -7,3 +7,8 @@ scalaJSSettings
 name := "collidium"
 
 version := "0.1-SNAPSHOT"
+
+unmanagedSources in (Compile, ScalaJSKeys.packageJS) <+=
+    baseDirectory.map(_ / "js" / "startup.js")
+
+ScalaJSKeys.optimizeJSExterns <+= baseDirectory.map(_ / "js" / "box2d.js")

@@ -13,6 +13,8 @@ import Math._
 import Angle._
 
 object Main {
+  var sandboxMode = false
+
   def jsonToPoint(json: js.Dynamic) = {
     new Point(json.selectDynamic("x").toString.toInt, json.selectDynamic("y").toString.toInt)
   }
@@ -67,7 +69,6 @@ object Main {
     canvasDom.onmousedown = onMouseDown
     canvasDom.onmouseup = onMouseUp
     canvasDom.onmousemove = onMouseMove
-
     g.setInterval(tick, 20)
   }
 
@@ -78,6 +79,11 @@ object Main {
     youwonMusic.currentTime = 0
     val levelChooser = g.document.getElementById("levelChooser")
     val level = levelChooser.value.toString
+    if (level == "sandbox") {
+      sandboxMode = true
+    } else {
+      sandboxMode = false
+    }
     board = jsonToBoard(g.selectDynamic(level))
   }
 
@@ -87,26 +93,25 @@ object Main {
     (x,y)
   }
 
-  val onMouseDown = (event: MouseEvent) => {
+  val onMouseDown: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     val xDiff = board.ball.location.x - x
     val yDiff = board.ball.location.y - y
     if (!board.started) {
       if ((xDiff * xDiff) + (yDiff * yDiff) <= (board.ball.diameter * board.ball.diameter)) {
         board.slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
-
         board.ball.worldBody.GetPosition.set_x(x)
         board.ball.worldBody.GetPosition.set_y(500 - y)
-      } else {
+      } else if (sandboxMode) {
         curObstacle = Option(new Line(new Point(x, y), new Point(x, y), "white"))
         drawingLine = true
       }
     }
 
-    event.preventDefault()
+    false
   }
 
-  val onMouseMove = (event: MouseEvent) => {
+  val onMouseMove: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       val fittedX = {
@@ -139,10 +144,10 @@ object Main {
       curObstacle.get.draw(canvas)
     }
 
-    event.preventDefault
+    false
   }
 
-  val onMouseUp = (event: MouseEvent) => {
+  val onMouseUp: MouseEvent => js.Boolean = (event: MouseEvent) => {
     val (x,y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       val fittedX = {
@@ -169,8 +174,7 @@ object Main {
       board.ball.worldBody.GetPosition.set_y(500 - fittedY)
 
       board.ball.makeMovable
-      println(board.slingOption.get.deltaX)
-      board.ball.worldBody.ApplyLinearImpulse(b2Vec2(-10000000000 * board.slingOption.get.deltaX, 10000000000 * board.slingOption.get.deltaY), board.ball.worldBody.GetWorldCenter())
+      board.ball.worldBody.ApplyLinearImpulse(b2Vec2(-10000000000L * board.slingOption.get.deltaX, 10000000000L * board.slingOption.get.deltaY), board.ball.worldBody.GetWorldCenter())
       pullingRubber = false
       board.started = true
       backgroundMusic.play()
@@ -182,7 +186,7 @@ object Main {
       curObstacle = None
     }
 
-    event.preventDefault
+    false
   }
 }
 

@@ -21,7 +21,9 @@ trait b2World extends js.Object {
 
 object b2World {
 	def apply(gravity: b2Vec2) = {
-		g.eval("new Box2D.b2World(new Box2D.b2Vec2(" + gravity.get_x + " , " + gravity.get_y + "))").asInstanceOf[b2World]
+		val x = gravity.get_x()
+		val y = gravity.get_y()
+		g.eval(s"new Box2D.b2World(new Box2D.b2Vec2($x, $y))").asInstanceOf[b2World]
 	}
 }
 
@@ -99,20 +101,14 @@ object b2PolygonShape extends b2Shape {
 
 trait b2EdgeShape extends b2Shape {
 	def Set(start: b2Vec2, end: b2Vec2): Unit
-	// var vertex1: b2Vec2
-	// var vertex2: b2Vec2
 	var m_v1: b2Vec2
 	var m_v2: b2Vec2
 }
 
 object b2EdgeShape {
-	def apply(v1: b2Vec2, v2: b2Vec2) = {
-		// val edge = g.eval("new b2EdgeShape()")
-		// edge.Set(start, end).asInstanceOf[b2EdgeShape]
+	def apply() = {
 
-		// g.b2EdgeShape.prototype.__constructor(start, end).asInstanceOf[b2EdgeShape]
-
-		g.eval("new Box2D.Collision.Shapes.b2EdgeShape(" + "new Box2D.Common.Math.b2Vec2(" + v1.get_x + " , " + v1.get_y + "), " + "new Box2D.Common.Math.b2Vec2(" + v2.get_x + " , " + v2.get_y + ")" + ")").asInstanceOf[b2EdgeShape]
+		g.eval("new Box2D.b2EdgeShape()")
 
 		// g.eval("new b2EdgeShape()").asInstanceOf[b2EdgeShape]
 	}

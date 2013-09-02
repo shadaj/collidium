@@ -10,7 +10,7 @@ trait b2Vec2 extends js.Object {
 }
 object b2Vec2 {
   def apply(x: Double, y: Double): b2Vec2 = {
-    g.eval(s"new Box2D.b2Vec2($x, $y)").asInstanceOf[b2Vec2]
+    js.Dynamic.newInstance(g.Box2D.b2Vec2)(x,y).asInstanceOf[b2Vec2]
   }
 }
 
@@ -21,9 +21,7 @@ trait b2World extends js.Object {
 
 object b2World {
   def apply(gravity: b2Vec2): b2World = {
-    val x = gravity.get_x()
-    val y = gravity.get_y()
-    g.eval(s"new Box2D.b2World(new Box2D.b2Vec2($x, $y))").asInstanceOf[b2World]
+    js.Dynamic.newInstance(g.Box2D.b2World)(gravity).asInstanceOf[b2World]
   }
 }
 
@@ -36,14 +34,13 @@ trait b2BodyDef extends js.Object {
 
 object b2BodyDef {
   def apply(): b2BodyDef = {
-    g.eval("new Box2D.b2BodyDef()").asInstanceOf[b2BodyDef]
+    js.Dynamic.newInstance(g.Box2D.b2BodyDef)().asInstanceOf[b2BodyDef]
   }
 }
 
 
 trait b2Fixture {
   def GetBody(): b2Body
-  def m_body: b2Body
 }
 
 trait b2Body extends js.Object {
@@ -55,23 +52,22 @@ trait b2Body extends js.Object {
   def SetType(newType: js.Dynamic): Unit
 }
 
-trait b2Shape extends js.Object
-
 trait b2FixtureDef extends js.Object {
-  var density: js.Number
-  var friction: js.Number
   def get_shape(): b2Shape
   def set_shape(newShape: b2Shape): Unit
-  var m_shape: js.Dynamic
   def get_restitution(): js.Number
   def set_restitution(newValue: js.Number): Unit
   def get_density(): js.Number
   def set_density(newValue: js.Number): Unit
+  def get_friction(): js.Number
+  def set_friction(newValue: js.Number): Unit
 }
+
+trait b2Shape extends js.Object
 
 object b2FixtureDef {
   def apply(): b2FixtureDef = {
-    g.eval("new Box2D.b2FixtureDef()").asInstanceOf[b2FixtureDef]
+    js.Dynamic.newInstance(g.Box2D.b2FixtureDef)().asInstanceOf[b2FixtureDef]
   }
 }
 
@@ -82,7 +78,7 @@ trait b2CircleShape extends b2Shape {
 
 object b2CircleShape {
   def apply(): b2CircleShape = {
-    g.eval(s"new Box2D.b2CircleShape()").asInstanceOf[b2CircleShape]
+    js.Dynamic.newInstance(g.Box2D.b2CircleShape)().asInstanceOf[b2CircleShape]
   }
 }
 
@@ -91,9 +87,9 @@ trait b2PolygonShape extends b2Shape {
   def SetAsVector(vertices: js.Array[b2Vec2], vertexCount: js.Number)
 }
 
-object b2PolygonShape extends b2Shape {
+object b2PolygonShape {
   def apply(): b2PolygonShape = {
-    g.eval("new Box2D.b2PolygonShape()").asInstanceOf[b2PolygonShape]
+    js.Dynamic.newInstance(g.Box2D.b2PolygonShape)().asInstanceOf[b2PolygonShape]
   }
 }
 
@@ -103,6 +99,6 @@ trait b2EdgeShape extends b2Shape {
 
 object b2EdgeShape {
   def apply(): b2EdgeShape = {
-    g.eval("new Box2D.b2EdgeShape()").asInstanceOf[b2EdgeShape]
+    js.Dynamic.newInstance(g.Box2D.b2EdgeShape)().asInstanceOf[b2EdgeShape]
   }
 }

@@ -17,7 +17,6 @@ abstract class Sprite(val color: String) {
     canvas.fillStyle = color
     canvas.strokeStyle = color
   }
-  var location: Point
   def addToWorld(world: b2World): Unit
 }
 
@@ -27,10 +26,10 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
   body.set_position(b2Vec2(location.x, SCREEN_SIZE - location.y))
 
   val circleShape = b2CircleShape()
-  circleShape.asInstanceOf[js.Dynamic].set_m_radius(diameter/2)
+  circleShape.set_m_radius(diameter/2)
 
   val fixture = b2FixtureDef()
-  fixture.set_shape(circleShape.asInstanceOf[b2Shape])
+  fixture.set_shape(circleShape)
   fixture.set_restitution(1.0)
 
   var worldBody: Option[b2Body] = None
@@ -92,7 +91,7 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
   edgeLine.Set(startVector, endVector)
 
   val fixture = b2FixtureDef()
-  fixture.set_shape(edgeLine.asInstanceOf[b2Shape])
+  fixture.set_shape(edgeLine)
   fixture.set_restitution(1.0)
 
 
@@ -105,8 +104,6 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
 
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
-
-  var location = start
 
   override def draw(canvas: Canvas2D): Unit = {
     super.draw(canvas)

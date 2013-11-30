@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<link href="http://shadaj.me/bootstrap.css" rel="stylesheet">
+	<link href="http://shadaj.me/css/bootstrap.min.css" rel="stylesheet">
 
 	<head>
 	  <title>Collidium Online</title>
@@ -8,25 +8,25 @@
 	</head>
 	<body id="main"></body>
 
-	<script type="text/javascript" src="http://shadaj.me/js/jquery.js"></script>
+	<script type="text/javascript" src="http://shadaj.me/js/jquery.min.js"></script>
+	<script>$("#main").load("./mainBody.html #mainBody")</script>
 	<script type="text/javascript" src="./levels.json"></script>
 	<script type="text/javascript" src="./js/box2d.js"></script>
+	<script type="text/javascript" src="./target/scala-2.10/collidium-extdeps.js"></script>
+	<script type="text/javascript" src="./target/scala-2.10/collidium-intdeps.js"></script>
 	<script>
 		function jumpLevel() {
-	  		ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().levelJump();
-		}
+            ScalaJS.modules.me_shadaj_collidium_Main().levelJump();
+        }
+		var collidiumScript = document.createElement("script")
+  		collidiumScript.type="text/javascript"
+  		collidiumScript.onload = function () {
+  			document.getElementById("loadingImage").hidden = true
+  			ScalaJS.modules.me_shadaj_collidium_Main().main();
+  		}
 
-		$("#main").load("./mainBody.html #mainBody", function(response, status, xhr) {
-			var collidiumScript = document.createElement("script")
-	  		collidiumScript.type="text/javascript"
-	  		collidiumScript.onload = function () {
-	  			document.getElementById("loadingImage").hidden = true
-	  			ScalaJS.modules.me\ufe33shadaj\ufe33collidium\ufe33Main().main();
-	  		}
-
-	  		collidiumScript.src = "./target/scala-2.10/collidium.js"
-	  		var body = document.getElementsByTagName("body")[0]
-	  		body.appendChild(collidiumScript)
-		})
+  		collidiumScript.src = "./target/scala-2.10/collidium.js"
+  		var body = document.getElementById("main")
+  		body.appendChild(collidiumScript)
 	</script>
 </html>

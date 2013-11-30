@@ -1,6 +1,9 @@
 package me.shadaj.collidium
 
-import scala.js._
+import scala.scalajs.js
+import js.Dynamic
+import js.Any
+import Any._
 import scala.language.implicitConversions
 
 object BoardLoader {
@@ -21,10 +24,15 @@ object BoardLoader {
     }
   }
 
+  def myToArray[T](jsArray: js.Array[T]) = {
+    
+  }
+  
   def jsonToBoard(json: js.Dynamic): Board = {
     val obstacleJSArray = json.obstacles.asInstanceOf[js.Array[js.Dynamic]]
+    
     val obstaclesArray: scala.Array[js.Dynamic] = obstacleJSArray
-
+    
     val obstacles = for (obstacle <- obstaclesArray) yield jsonToSprite(obstacle).get
 
     new Board(json.name.toString,

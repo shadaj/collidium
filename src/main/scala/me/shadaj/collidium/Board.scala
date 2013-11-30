@@ -1,5 +1,6 @@
 package me.shadaj.collidium
 
+import scala.scalajs.js
 import js.Dynamic.{ global => g }
 
 class Board(val name: String, val maximumStretch: Int, val margin: Int, val walls: List[Sprite], val ball: Circle, val hole: Circle, val friction: Double) {

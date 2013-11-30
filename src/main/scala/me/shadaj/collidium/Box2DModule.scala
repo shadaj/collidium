@@ -1,5 +1,6 @@
 package me.shadaj.collidium
 
+import scala.scalajs.js
 import js.Dynamic.{ global => g }
 
 trait b2Vec2 extends js.Object {

@@ -1,7 +1,7 @@
 package me.shadaj.collidium
 
+import scala.scalajs.js
 import js.Dynamic.{ global => g }
-import scala.js
 import Math._
 
 class Point(var x: Double, var y: Double) {

@@ -1,10 +1,10 @@
 package me.shadaj.collidium
 
+import scala.scalajs.js
 import js.Dynamic.{ global => g }
-import scala.js._
+import js._
 
 import scala.annotation.tailrec
-import scala.js
 
 object Main {
   var sandboxMode = false

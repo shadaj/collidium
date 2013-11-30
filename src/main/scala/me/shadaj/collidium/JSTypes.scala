@@ -1,12 +1,13 @@
 package me.shadaj.collidium
 
+import scala.scalajs.js
+
 import js.Dynamic.{ global => g }
-import scala.js._
+import js._
 
 import scala.language.implicitConversions
 
 import scala.annotation.tailrec
-import scala.js
 
 import Math._
 

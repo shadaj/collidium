@@ -1,15 +1,27 @@
 package me.shadaj.collidium
 
 import scala.scalajs.js
-import js.Dynamic.{ global => g }
-import js._
-
+import scala.scalajs.js._
+import scala.scalajs.js.Any._
 import scala.annotation.tailrec
+import org.scalajs.dom.HTMLAudioElement
+import org.scalajs.dom.MouseEvent
+import org.scalajs.dom.HTMLElement
+import org.scalajs.dom.HTMLCanvasElement
+import org.scalajs.dom.CanvasRenderingContext2D
+import org.scalajs.dom
+import org.scalajs.dom.extensions._
+import org.scalajs.dom.HTMLSelectElement
 
 object Main {
+  val boardsArray: scala.Array[Dynamic] = Dynamic.global.levels.asInstanceOf[js.Array[Dynamic]]
+  val boards = boardsArray.map { d =>
+    () => BoardLoader.jsonToBoard(d)
+  }
+  
   var sandboxMode = false
 
-  var board = BoardLoader.jsonToBoard(g.level0)
+  var board = boards.head()
 
   var pullingRubber = false
 
@@ -17,17 +29,18 @@ object Main {
 
   var drawingLine = false
 
-  val canvasOrig = g.document.getElementById("canvas")
-  val canvasDom = canvasOrig.asInstanceOf[DOMElement]
-  val canvasElem = canvasOrig.asInstanceOf[HTMLCanvasElement]
-  val canvas = canvasElem.getContext("2d").asInstanceOf[Canvas2D]
+  val canvasElem = dom.document.getElementById("canvas").cast[HTMLCanvasElement]
+  val canvas = canvasElem.getContext("2d").cast[CanvasRenderingContext2D]
 
-  val youwonMusic = g.document.getElementById("youWonAudio").asInstanceOf[AudioElement]
-  val backgroundMusic = g.document.getElementById("backgroundAudio").asInstanceOf[AudioElement]
+  val youwonMusic = dom.document.getElementById("youWonAudio").cast[HTMLAudioElement]
+  val backgroundMusic = dom.document.getElementById("backgroundAudio").cast[HTMLAudioElement]
 
-  val TICK_INTERVAL = 20
+  val TICK_INTERVAL = 10
   val SCREEN_SIZE = 500
-  val FORCE_SCALE = 10000000000L
+
+  
+
+  var currentIndex = 0
 
   def main(): Unit = {
     val tick = () => {
@@ -35,10 +48,10 @@ object Main {
       board.update
     }
 
-    canvasDom.onmousedown = onMouseDown
-    canvasDom.onmouseup = onMouseUp
-    canvasDom.onmousemove = onMouseMove
-    g.setInterval(tick, TICK_INTERVAL)
+    canvasElem.onmousedown = onMouseDown
+    canvasElem.onmouseup = onMouseUp
+    canvasElem.onmousemove = onMouseMove
+    dom.setInterval(tick, TICK_INTERVAL)
   }
 
   def levelJump(): Unit = {
@@ -46,18 +59,40 @@ object Main {
     backgroundMusic.currentTime = 0
     youwonMusic.pause
     youwonMusic.currentTime = 0
-    val levelChooser = g.document.getElementById("levelChooser")
+    val levelChooser = dom.document.getElementById("levelChooser").cast[HTMLSelectElement]
     val level = levelChooser.value.toString
-    sandboxMode = (level == "sandbox")
-    board = BoardLoader.jsonToBoard(g.selectDynamic(level))
+    currentIndex = boards.indexWhere(_().name == level)
+    val newBoard = boards(currentIndex)()
+    sandboxMode = newBoard.name == "Sandbox"
+    board = newBoard
   }
 
-  def location(event: MouseEvent): (js.Number, js.Number) = {
-    (event.layerX, event.layerY)
+  def nextLevel: Unit = {
+    if (currentIndex + 1 < boards.length) {
+      backgroundMusic.pause
+      backgroundMusic.currentTime = 0
+      youwonMusic.pause
+      youwonMusic.currentTime = 0
+      currentIndex += 1
+      val newBoard = boards(currentIndex)()
+      sandboxMode = newBoard.name == "Sandbox"
+      board = newBoard
+      dom.document.getElementById("levelChooser").cast[HTMLSelectElement].selectedIndex = currentIndex
+    } else {
+      backgroundMusic.pause
+      backgroundMusic.currentTime = 0
+      youwonMusic.pause
+      youwonMusic.currentTime = 0
+      board = boards(currentIndex)()
+    }
   }
 
-  val onMouseDown: MouseEvent => js.Boolean = (event: MouseEvent) => {
-    val (x,y) = location(event)
+  def location(event: MouseEvent): (Number, Number) = {
+    (event.clientX - canvasElem.offsetLeft + dom.document.body.scrollLeft, event.clientY - canvasElem.offsetTop + dom.document.body.scrollTop)
+  }
+
+  val onMouseDown: MouseEvent => Boolean = (event: MouseEvent) => {
+    val (x, y) = location(event)
     val xDiff = board.ball.location.x - x
     val yDiff = board.ball.location.y - y
     if (!board.started) {
@@ -74,8 +109,8 @@ object Main {
     false
   }
 
-  val onMouseMove: MouseEvent => js.Boolean = (event: MouseEvent) => {
-    val (x,y) = location(event)
+  val onMouseMove: MouseEvent => Boolean = (event: MouseEvent) => {
+    val (x, y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       val fittedX = {
         if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
@@ -110,8 +145,8 @@ object Main {
     false
   }
 
-  val onMouseUp: MouseEvent => js.Boolean = (event: MouseEvent) => {
-    val (x,y) = location(event)
+  val onMouseUp: MouseEvent => Boolean = (event: MouseEvent) => {
+    val (x, y) = location(event)
     if (board.slingOption.isDefined && !board.started) {
       val fittedX = {
         if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
@@ -140,12 +175,12 @@ object Main {
       board.slingOption.get.draw(canvas)
 
       board.ball.makeMovable
-      val xForce = -FORCE_SCALE * board.slingOption.get.deltaX
+      val xForce = -board.slingOption.get.deltaX
       println(s"x: $xForce")
-      val yForce = FORCE_SCALE * board.slingOption.get.deltaY
+      val yForce = board.slingOption.get.deltaY
       println(s"y: $yForce")
-      board.ball.worldBody.get.ApplyLinearImpulse(b2Vec2(xForce,yForce),
-                                                  board.ball.worldBody.get.GetWorldCenter())
+      board.ball.worldBody.get.ApplyLinearImpulse(b2Vec2(xForce, yForce),
+        board.ball.worldBody.get.GetWorldCenter())
       pullingRubber = false
       board.started = true
       backgroundMusic.play()

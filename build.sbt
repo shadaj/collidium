@@ -2,6 +2,8 @@
 
 scalaVersion := "2.10.2"
 
+libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-dom" % "0.1-SNAPSHOT"
+
 scalaJSSettings
 
 org.scalastyle.sbt.ScalastylePlugin.Settings

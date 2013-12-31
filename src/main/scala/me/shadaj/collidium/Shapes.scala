@@ -3,6 +3,7 @@ package me.shadaj.collidium
 import scala.scalajs.js
 import js.Dynamic.{ global => g }
 import Math._
+import org.scalajs.dom.CanvasRenderingContext2D
 
 class Point(var x: Double, var y: Double) {
   override def toString: String = {
@@ -13,7 +14,7 @@ class Point(var x: Double, var y: Double) {
 abstract class Sprite(val color: String) {
   val SCREEN_SIZE = 500
 
-  def draw(canvas: Canvas2D): Unit = {
+  def draw(canvas: CanvasRenderingContext2D): Unit = {
     canvas.fillStyle = color
     canvas.strokeStyle = color
   }
@@ -51,7 +52,7 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
     }
   }
 
-  override def draw(canvas: Canvas2D): Unit = {
+  override def draw(canvas: CanvasRenderingContext2D): Unit = {
     if (worldBody.isDefined) {
       val worldLocation = worldBody.get.GetPosition()
       super.draw(canvas)
@@ -105,7 +106,7 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
 
-  override def draw(canvas: Canvas2D): Unit = {
+  override def draw(canvas: CanvasRenderingContext2D): Unit = {
     super.draw(canvas)
     canvas.lineWidth = 2
     canvas.beginPath

@@ -1,8 +1,8 @@
 // Turn this project into a Scala.js project by importing these settings
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
-libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-dom" % "0.1-SNAPSHOT"
+libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-dom" % "0.3-SNAPSHOT"
 
 scalaJSSettings
 
@@ -14,5 +14,3 @@ version := "0.1-SNAPSHOT"
 
 unmanagedSources in (Compile, ScalaJSKeys.packageJS) +=
     baseDirectory.value / "js" / "startup.js"
-
-ScalaJSKeys.optimizeJSExterns <+= baseDirectory.map(_ / "js" / "box2d.js")

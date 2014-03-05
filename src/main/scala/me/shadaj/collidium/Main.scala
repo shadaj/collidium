@@ -12,6 +12,7 @@ import org.scalajs.dom.CanvasRenderingContext2D
 import org.scalajs.dom
 import org.scalajs.dom.extensions._
 import org.scalajs.dom.HTMLSelectElement
+import example.cp.Implicits._
 
 object Main {
   val boardsArray: scala.Array[Dynamic] = Dynamic.global.levels.asInstanceOf[js.Array[Dynamic]]
@@ -35,11 +36,11 @@ object Main {
   val youwonMusic = dom.document.getElementById("youWonAudio").cast[HTMLAudioElement]
   val backgroundMusic = dom.document.getElementById("backgroundAudio").cast[HTMLAudioElement]
 
-  val TICK_INTERVAL = 10
+  val TICK_INTERVAL = 5
   val SCREEN_SIZE = 500
 
+  val FORCE_SCALE = 40
   
-
   var currentIndex = 0
 
   def main(): Unit = {
@@ -47,7 +48,7 @@ object Main {
       board.paint(canvas)
       board.update
     }
-
+    
     canvasElem.onmousedown = onMouseDown
     canvasElem.onmouseup = onMouseUp
     canvasElem.onmousemove = onMouseMove
@@ -93,103 +94,21 @@ object Main {
 
   val onMouseDown: MouseEvent => Boolean = (event: MouseEvent) => {
     val (x, y) = location(event)
-    val xDiff = board.ball.location.x - x
-    val yDiff = board.ball.location.y - y
-    if (!board.started) {
-      if ((xDiff * xDiff) + (yDiff * yDiff) <= (board.ball.diameter * board.ball.diameter)) {
-        board.slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
-        board.ball.worldBody.get.GetPosition.set_x(x)
-        board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - y)
-      } else if (sandboxMode) {
-        curObstacle = Option(new Line(new Point(x, y), new Point(x, y), "white"))
-        drawingLine = true
-      }
-    }
+    board.onMouseDown(x, y)
 
     false
   }
 
   val onMouseMove: MouseEvent => Boolean = (event: MouseEvent) => {
     val (x, y) = location(event)
-    if (board.slingOption.isDefined && !board.started) {
-      val fittedX = {
-        if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
-          board.slingOption.get.start.x - board.maximumStretch
-        } else if (x > (board.slingOption.get.start.x + board.maximumStretch)) {
-          board.slingOption.get.start.x + board.maximumStretch
-        } else {
-          x.toDouble
-        }
-      }
-
-      val fittedY = {
-        if (y < (board.slingOption.get.start.y - board.maximumStretch)) {
-          board.slingOption.get.start.y - board.maximumStretch
-        } else if (y > (board.slingOption.get.start.y + board.maximumStretch)) {
-          board.slingOption.get.start.y + board.maximumStretch
-        } else {
-          y.toDouble
-        }
-      }
-
-      board.ball.worldBody.get.GetPosition.set_x(fittedX)
-      board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - fittedY)
-
-      board.slingOption = Option(new Sling(board.slingOption.get.start, new Point(fittedX, fittedY), "white"))
-      board.slingOption.get.draw(canvas)
-    } else if (drawingLine && curObstacle.isDefined) {
-      curObstacle = Option(new Line(curObstacle.get.start, new Point(x, y), "white"))
-      curObstacle.get.draw(canvas)
-    }
+    board.onMouseMove(x, y)
 
     false
   }
 
   val onMouseUp: MouseEvent => Boolean = (event: MouseEvent) => {
     val (x, y) = location(event)
-    if (board.slingOption.isDefined && !board.started) {
-      val fittedX = {
-        if (x < (board.slingOption.get.start.x - board.maximumStretch)) {
-          board.slingOption.get.start.x - board.maximumStretch
-        } else if (x > (board.slingOption.get.start.x + board.maximumStretch)) {
-          board.slingOption.get.start.x + board.maximumStretch
-        } else {
-          x.toDouble
-        }
-      }
-
-      val fittedY = {
-        if (y < (board.slingOption.get.start.y - board.maximumStretch)) {
-          board.slingOption.get.start.y - board.maximumStretch
-        } else if (y > (board.slingOption.get.start.y + board.maximumStretch)) {
-          board.slingOption.get.start.y + board.maximumStretch
-        } else {
-          y.toDouble
-        }
-      }
-
-      board.ball.worldBody.get.GetPosition.set_x(fittedX)
-      board.ball.worldBody.get.GetPosition.set_y(SCREEN_SIZE - fittedY)
-
-      board.slingOption = Option(new Sling(board.slingOption.get.start, new Point(fittedX, fittedY), "white"))
-      board.slingOption.get.draw(canvas)
-
-      board.ball.makeMovable
-      val xForce = -board.slingOption.get.deltaX
-      println(s"x: $xForce")
-      val yForce = board.slingOption.get.deltaY
-      println(s"y: $yForce")
-      board.ball.worldBody.get.ApplyLinearImpulse(b2Vec2(xForce, yForce),
-        board.ball.worldBody.get.GetWorldCenter())
-      pullingRubber = false
-      board.started = true
-      backgroundMusic.play()
-    } else if (drawingLine && curObstacle.isDefined) {
-      board.obstacles = (new Line(curObstacle.get.start, new Point(x, y), "white")) :: board.obstacles
-      board.obstacles.head.addToWorld(board.world)
-      drawingLine = false
-      curObstacle = None
-    }
+    board.onMouseUp(x, y)
 
     false
   }

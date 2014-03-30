@@ -11,18 +11,15 @@
 	<script type="text/javascript" src="http://shadaj.me/js/jquery.min.js"></script>
 	<script>$("#main").load("./mainBody.html #mainBody")</script>
 	<script type="text/javascript" src="./levels.json"></script>
-	<script type="text/javascript" src="./js/cp.min.js"></script>
+	<script type="text/javascript" src="./js/physicsjs-full-0.5.4.min.js"></script>
 	<script type="text/javascript" src="./target/scala-2.10/collidium-extdeps.js"></script>
 	<script type="text/javascript" src="./target/scala-2.10/collidium-intdeps.js"></script>
 	<script>
-		function jumpLevel() {
-            ScalaJS.modules.me_shadaj_collidium_Main().levelJump();
-        }
 		var collidiumScript = document.createElement("script")
   		collidiumScript.type="text/javascript"
   		collidiumScript.onload = function () {
   			document.getElementById("loadingImage").hidden = true
-  			ScalaJS.modules.me_shadaj_collidium_Main().main();
+  			Main().main()
   		}
 
   		collidiumScript.src = "./target/scala-2.10/collidium.js"

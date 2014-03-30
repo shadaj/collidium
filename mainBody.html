@@ -6,44 +6,45 @@
 				<div class="masthead">
 					<h3 class="muted">Collidium Online</h3>
 				</div>
-				<div class="row-fluid">
-					<div class="span9">
-						<audio hidden id="youWonAudio">
-						  	<source src="assets/YouWon.ogg" type="audio/ogg" />
-							<source src="assets/YouWon.mp3" type="audio/mpeg" />
-						</audio>
-						<audio hidden loop id="backgroundAudio">
-							<source src="assets/backgroundMusic.ogg" type="audio/ogg" />
-						 	<source src="assets/backgroundMusic.mp3" type="audio/mpeg" />
-						</audio>
-						<div>
-							<p>Web version of <a href="https://github.com/shadaj/collidium-desktop" target="_new">collidium-desktop</a> written in Scala.</p>
-							<p>Made possible by the AWESOME <a href="http://lampwww.epfl.ch/~doeraene/scala-js/" target="_new">scala.js!</a></p>
-							<p>Source code available <a href="http://github.com/shadaj/collidium-online" target="_new">here</a></p>
-						    <h2>How to play:</h2>
-						    <ul>
-						      	<li>Choose a level using the combobox and the jump button</li>
-					    		<li>Try to get the ball into the red circle!</li>
-					    		<li><b>In Sandbox Mode</b>: Before launching the orange ball by it pulling it back, you can draw obstacles that the ball will bounce off.</li>
-					    	</ul>
-					  		<img src="./assets/Loading_Key.gif" alt="Loading..." id="loadingImage" style="margin:250px"></img>
-						</div>
+				<audio hidden id="youWonAudio">
+				  	<source src="assets/YouWon.ogg" type="audio/ogg" />
+					<source src="assets/YouWon.mp3" type="audio/mpeg" />
+				</audio>
+				<audio hidden loop id="backgroundAudio">
+					<source src="assets/backgroundMusic.ogg" type="audio/ogg" />
+				 	<source src="assets/backgroundMusic.mp3" type="audio/mpeg" />
+				</audio>
+				<div>
+					<p>Web version of <a href="https://github.com/shadaj/collidium-desktop" target="_new">collidium-desktop</a> written in Scala.</p>
+					<p>Made possible by the AWESOME <a href="http://lampwww.epfl.ch/~doeraene/scala-js/" target="_new">scala.js!</a></p>
+					<p>Source code available <a href="http://github.com/shadaj/collidium-online" target="_new">here</a></p>
+				    <h2>How to play:</h2>
+				    <ul>
+				      	<li>Choose a level using the combobox and the jump button</li>
+			    		<li>Try to get the ball into the red circle!</li>
+			    		<li><b>In Sandbox Mode</b>: Before launching the orange ball by it pulling it back, you can draw obstacles that the ball will bounce off.</li>
+			    	</ul>
+			  		<img src="./assets/Loading_Key.gif" alt="Loading..." id="loadingImage" style="margin:250px"></img>
+				</div>
 
-						<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
-						<div class="controls">
-							<select id="levelChooser" onchange="jumpLevel()">
-						  		<option value="Straight Shooter">Straight Shooter</option>
-						  		<option value="Gotta Go Around">Gotta Go Around</option>
-						  		<option value="Trapezoid Land">Trapezoid Land</option>
-						  		<option value="Crisscross">Crisscross</option>
-						  		<option value="Sandbox">Sandbox - Create your own levels</option>
-							</select>
-						</div>
-						<hr>
-						<div>
-							<a class="btn btn-primary btn-large" href="http://shadaj.me">Visit my main website!</a>
-						</div>
-					</div>
+
+				<div style="width: 500px">
+					<h2 id="levelName" style="text-align: center"></h2>
+				</div>
+				<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
+				<h3 id="timeTaken"></h3>
+				<div class="controls">
+					<select id="levelChooser" onchange="Main().levelJump()">
+				  		<option value="Straight Shooter">Straight Shooter</option>
+				  		<option value="Gotta Go Around">Gotta Go Around</option>
+				  		<option value="Trapezoid Land">Trapezoid Land</option>
+				  		<option value="Crisscross">Crisscross</option>
+				  		<option value="Sandbox">Sandbox - Create your own levels</option>
+					</select>
+				</div>
+				<hr>
+				<div>
+					<a class="btn btn-primary btn-large" href="http://shadaj.me">Visit my main website!</a>
 				</div>
 			</div>
 		</div>

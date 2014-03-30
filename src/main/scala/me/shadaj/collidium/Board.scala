@@ -1,47 +1,69 @@
 package me.shadaj.collidium
 
 import scala.scalajs.js
-import js.Dynamic.{ global => g }
-import org.scalajs.dom.CanvasRenderingContext2D
-import example.cp._
-import Implicits._
+import scala.scalajs.js.Any.fromBoolean
+import scala.scalajs.js.Any.fromDouble
+import scala.scalajs.js.Any.fromFunction0
+import scala.scalajs.js.Any.fromFunction2
+import scala.scalajs.js.Any.fromInt
+import scala.scalajs.js.Any.fromString
+import scala.scalajs.js.Number.toDouble
+import scala.scalajs.js.annotation.JSName
 
-class Board(val name: String, val maximumStretch: Int, val margin: Int, val walls: List[Sprite], val ball: Circle, val hole: Circle, val friction: Double, implicit val space: Space) {
+import org.scalajs.dom
+import org.scalajs.dom.CanvasRenderingContext2D
+
+import me.shadaj.scalajs.physicsjs.Physics
+import me.shadaj.scalajs.physicsjs.Ticker
+import me.shadaj.scalajs.physicsjs.Vector
+
+class Board(val name: String, val maximumStretch: Int, val margin: Int, val walls: List[Sprite], val ball: Circle, val hole: Circle, val friction: Double) {
   var slingOption: Option[Sling] = None
   var started = false
   var obstacles = List[Sprite]()
-  var winnable = true
   var won = false
-  var points = 0
-  var pointsToIncrement = 0
+  var prevTime = 0D
+  var timeTaken = 0D
+  var curObstacle: Option[Line] = None
 
-  val X_GRAVITY = 0.0
-  val Y_GRAVITY = 0.0
-  val FORCE_SCALE = 40
+  dom.document.getElementById("levelName").innerHTML = name
+
+  val FORCE_SCALE = 1D / 1000
   val SCREEN_SIZE = 500
 
-  val TIME_STEP = 1.0 / 60.0
-  val VELOCITY_ITERATIONS = 8
-  val POSITION_ITERATIONS = 3
-  val MAX_YOU_WON_SIZE = 100
+  val world = Physics()
+  val onTick = (time: js.Number, dt: js.Number) => {
+    if (!won) {
+      world.step(time)
+      if (started) {
+        timeTaken += (time - prevTime)
+      }
+      prevTime = time
+      update
+    }
+  }
+  Ticker.subscribe(onTick)
+  Ticker.start()
+  world.add(Physics.behavior("body-collision-detection"))
+  world.add(Physics.behavior("sweep-prune"))
+  world.add(Physics.behavior("body-impulse-response"))
 
-  space.gravity = (X_GRAVITY, Y_GRAVITY)
+  world.add(ball.body)
+  walls.foreach(w => world.add(w.body))
 
-  var youWonTicks = 0D
+  world.subscribe("step", () => paint(Main.canvas))
 
   def paint(canvas: CanvasRenderingContext2D) {
     canvas.fillStyle = "black"
     canvas.fillRect(0, 0, SCREEN_SIZE, SCREEN_SIZE)
     if (won) {
-      showWin(canvas)
-      if (youWonTicks == MAX_YOU_WON_SIZE * 9) {
-        Main.nextLevel
-      }
+      Main.nextLevel
     } else {
+      dom.document.getElementById("timeTaken").innerHTML = "Time Elapsed: " + f"${timeTaken / 1000}%0.2f"
       walls.foreach(_.draw(canvas))
       obstacles.foreach(_.draw(canvas))
-      if (Main.curObstacle.isDefined) {
-        Main.curObstacle.get.draw(canvas)
+      if (curObstacle.isDefined) {
+        curObstacle.get.draw(canvas)
       }
       hole.draw(canvas)
       ball.draw(canvas)
@@ -54,18 +76,12 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   }
 
   def update {
-    if (hole.inBoundsOf(ball) && winnable == true) {
+    if (hole.inBoundsOf(ball) && !won) {
       Main.backgroundMusic.pause
-      Main.youwonMusic.play
-      winnable = false
       won = true
-    }
-    if (started && !won) {
-      space.step(TIME_STEP)
+      Main.nextLevel
     }
   }
-
-  var sandboxWallStart: Option[(Double, Double)] = None
 
   def onMouseDown(x: Double, y: Double): Unit = {
     val xDiff = ball.location.x - x
@@ -73,9 +89,9 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
     if (!started) {
       if ((xDiff * xDiff) + (yDiff * yDiff) <= (ball.diameter * ball.diameter)) {
         slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
-        ball.body.setPos((x, y))
+        ball.body.state.pos.set(x, y)
       } else if (name == "Sandbox") {
-        sandboxWallStart = Option((x, y))
+        curObstacle = Some(new Line(new Point(x, y), new Point(x, y), "white"))
       }
     }
   }
@@ -95,17 +111,12 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
         (newX, newY)
       }
 
-      ball.body.setPos((newBallPos._1, newBallPos._2))
+      ball.body.state.pos.set(newBallPos._1, newBallPos._2)
 
       slingOption = Option(new Sling(slingOption.get.start, new Point(newBallPos._1, newBallPos._2), "white"))
       slingOption.get.draw(Main.canvas)
-    } else if (sandboxWallStart.isDefined) {
-      val canvas = Main.canvas
-      canvas.lineWidth = 2
-      canvas.beginPath
-      canvas.moveTo(sandboxWallStart.get._1, sandboxWallStart.get._2)
-      canvas.lineTo(x, y)
-      canvas.stroke
+    } else if (curObstacle.isDefined) {
+      curObstacle = Some(new Line(curObstacle.get.start, new Point(x, y), "white"))
     }
   }
 
@@ -124,7 +135,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
         (newX, newY)
       }
 
-      ball.body.setPos((newBallPos._1, newBallPos._2))
+      ball.body.state.pos.set(newBallPos._1, newBallPos._2)
 
       slingOption = Option(new Sling(slingOption.get.start, new Point(newBallPos._1, newBallPos._2), "white"))
       slingOption.get.draw(Main.canvas)
@@ -132,26 +143,15 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
       val xForce = -slingOption.get.deltaX
       val yForce = -slingOption.get.deltaY
 
-      ball.body.applyImpulse((xForce * FORCE_SCALE, yForce * FORCE_SCALE), (0, 0))
+      ball.body.accelerate(Vector(xForce * FORCE_SCALE, yForce * FORCE_SCALE))
+      ball.body.fixed = false
       started = true
       Main.backgroundMusic.play()
-    } else if (sandboxWallStart.isDefined) {
-      println((new Point(sandboxWallStart.get._1, sandboxWallStart.get._2), new Point(x, y)))
-      obstacles = (new Line(new Point(sandboxWallStart.get._1, sandboxWallStart.get._2), new Point(x, y), "white")) :: (new Line(new Point(20, 20), new Point(480, 20), "white")) :: obstacles
-      sandboxWallStart = None
+    } else if (curObstacle.isDefined) {
+      val newObstacle = new Line(curObstacle.get.start, new Point(x, y), "white")
+      obstacles = newObstacle :: obstacles
+      world.add(newObstacle.body)
+      curObstacle = None
     }
-  }
-
-  private def showWin(canvas: CanvasRenderingContext2D): Unit = {
-    youWonTicks += 0.5
-    val fontSize = if (youWonTicks % (MAX_YOU_WON_SIZE * 2) <= MAX_YOU_WON_SIZE) {
-      youWonTicks % (MAX_YOU_WON_SIZE * 2)
-    } else {
-      (MAX_YOU_WON_SIZE * 2) - youWonTicks % (MAX_YOU_WON_SIZE * 2)
-    }
-    canvas.fillStyle = "turquoise"
-    canvas.font = fontSize + "px arial"
-    val textWidth = canvas.measureText("You Won!").width
-    canvas.fillText("You Won!", (SCREEN_SIZE / 2) - (textWidth / 2), SCREEN_SIZE / 2)
   }
 }

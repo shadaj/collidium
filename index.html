@@ -9,20 +9,20 @@
 	<body id="main"></body>
 
 	<script type="text/javascript" src="http://shadaj.me/js/jquery.min.js"></script>
+	<script>$("#main").load("./mainBody.html #mainBody")</script>
 	<script type="text/javascript" src="./levels.json"></script>
-	<script type="text/javascript" src="./js/box2d.js"></script>
-	<script>
-		$("#main").load("./mainBody.html #mainBody", function(response, status, xhr) {
-			var collidiumScript = document.createElement("script")
-	  		collidiumScript.type="text/javascript"
-	  		collidiumScript.onload = function () {
-	  			document.getElementById("loadingImage").hidden = true
-	  		}
+	<script type="text/javascript" src="./js/physicsjs-full-0.5.4.min.js"></script>
+	<script type="text/javascript">
+		var collidiumScript = document.createElement("script")
+  		collidiumScript.type= "text/javascript"
+  		collidiumScript.onload = function () {
+  			document.getElementById("loadingImage").hidden = true
+  			Main().main()
+  		}
 
-	  		collidiumScript.async = false
-	  		collidiumScript.src = "./target/scala-2.10/collidium-opt.js"
-	  		var body = document.getElementsByTagName("body")[0]
-	  		body.appendChild(collidiumScript)
-		})
+  		collidiumScript.async = false
+  		collidiumScript.src = "./target/scala-2.10/collidium-opt.js"
+  		var body = document.getElementById("main")
+  		body.appendChild(collidiumScript)
 	</script>
 </html>

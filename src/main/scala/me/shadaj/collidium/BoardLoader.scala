@@ -1,10 +1,6 @@
 package me.shadaj.collidium
 
 import scala.scalajs.js
-import js.Dynamic
-import js.Any
-import Any._
-import scala.language.implicitConversions
 
 object BoardLoader {
   def jsonToPoint(json: js.Dynamic): Point = {

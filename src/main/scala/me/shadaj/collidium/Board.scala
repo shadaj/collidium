@@ -1,15 +1,5 @@
 package me.shadaj.collidium
 
-import scala.scalajs.js
-import scala.scalajs.js.Any.fromBoolean
-import scala.scalajs.js.Any.fromDouble
-import scala.scalajs.js.Any.fromFunction0
-import scala.scalajs.js.Any.fromFunction2
-import scala.scalajs.js.Any.fromInt
-import scala.scalajs.js.Any.fromString
-import scala.scalajs.js.Number.toDouble
-import scala.scalajs.js.annotation.JSName
-
 import org.scalajs.dom
 import org.scalajs.dom.CanvasRenderingContext2D
 
@@ -32,7 +22,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   val SCREEN_SIZE = 500
 
   val world = Physics()
-  val onTick = (time: js.Number, dt: js.Number) => {
+  val onTick = (time: Double, dt: Double) => {
     if (!won) {
       world.step(time)
       if (started) {

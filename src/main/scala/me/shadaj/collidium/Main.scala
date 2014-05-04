@@ -1,24 +1,13 @@
 package me.shadaj.collidium
 
 import scala.scalajs.js
-import scala.scalajs.js.Any.fromBoolean
-import scala.scalajs.js.Any.fromFunction1
-import scala.scalajs.js.Any.fromInt
-import scala.scalajs.js.Any.fromString
-import scala.scalajs.js.Any.toArray
-import scala.scalajs.js.Boolean
+import scala.scalajs.js.Any._
 import scala.scalajs.js.Dynamic
-import scala.scalajs.js.Number
-import scala.scalajs.js.Number.toDouble
-import org.scalajs.dom
-import org.scalajs.dom.CanvasRenderingContext2D
-import org.scalajs.dom.HTMLAudioElement
-import org.scalajs.dom.HTMLCanvasElement
-import org.scalajs.dom.HTMLSelectElement
-import org.scalajs.dom.MouseEvent
-import org.scalajs.dom.extensions.Castable
-import org.scalajs.dom.Event
 import scala.scalajs.js.annotation.JSExport
+
+import org.scalajs.dom
+import org.scalajs.dom._
+import org.scalajs.dom.extensions.Castable
 
 @JSExport
 object Main {
@@ -75,7 +64,7 @@ object Main {
     }
   }
 
-  def location(event: MouseEvent): (Number, Number) = {
+  def location(event: MouseEvent): (Double, Double) = {
     (event.clientX - canvasElem.offsetLeft + dom.document.body.scrollLeft, event.clientY - canvasElem.offsetTop + dom.document.body.scrollTop)
   }
 

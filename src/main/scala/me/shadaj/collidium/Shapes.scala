@@ -1,10 +1,9 @@
 package me.shadaj.collidium
 
-import scala.scalajs.js
-import Math._
-import org.scalajs.dom.CanvasRenderingContext2D
 import me.shadaj.scalajs.physicsjs._
-import Implicits._
+import me.shadaj.scalajs.physicsjs.Implicits._
+
+import org.scalajs.dom.CanvasRenderingContext2D
 
 class Point(var x: Double, var y: Double) {
   override def toString: String = {
@@ -24,7 +23,7 @@ abstract class Sprite(val color: String) {
 }
 
 class Circle(var location: Point, val diameter: Int, color: String, usePhysics: Boolean) extends Sprite(color) {
-  val setup = CircleSetup(location.x, location.y, 0, 0, true, diameter / 2D)
+  val setup: CircleSetup = CircleSetup(location.x, location.y, 0, 0, true, diameter / 2D)
   val body = Physics.body("circle", setup)
 
   override def draw(canvas: CanvasRenderingContext2D): Unit = {
@@ -32,7 +31,7 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
     super.draw(canvas)
     canvas.beginPath
     val radius = diameter / 2
-    canvas.arc(worldLocation.x, worldLocation.y, radius, 0, 2 * PI, false)
+    canvas.arc(worldLocation.x, worldLocation.y, radius, 0, 2 * math.Pi, false)
     canvas.fill("nonzero")
   }
 

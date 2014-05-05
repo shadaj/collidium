@@ -22,7 +22,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   val SCREEN_SIZE = 500
 
   val world = Physics()
-  val onTick = (time: Double, dt: Double) => {
+  val onTick = (time: Double) => {
     if (!won) {
       world.step(time)
       if (started) {

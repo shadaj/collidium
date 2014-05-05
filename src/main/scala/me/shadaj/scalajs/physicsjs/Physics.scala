@@ -106,8 +106,8 @@ object Vector extends js.Object {
 
 @JSName("Physics.util.ticker")
 object Ticker extends js.Object {
-  def subscribe(function: js.Function2[Double, Double, Unit]): Unit = ???
-  def unsubscribe(function: js.Function2[Double, Double, Unit]): Unit = ???
+  def subscribe(function: js.Function1[Double, Unit]): Unit = ???
+  def unsubscribe(function: js.Function1[Double, Unit]): Unit = ???
   def start(): Unit = ???
 }
 

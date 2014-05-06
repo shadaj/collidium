@@ -13,10 +13,10 @@ import org.scalajs.dom.extensions.Castable
 object Main {
   val boardsArray: scala.Array[Dynamic] = Dynamic.global.levels.asInstanceOf[js.Array[Dynamic]]
   val boards = boardsArray.map { d =>
-    () => BoardLoader.jsonToBoard(d)
+    (d.name.toString, () => BoardLoader.jsonToBoard(d))
   }
 
-  var board = boards.head()
+  var board = boards.head._2()
 
   val canvasElem = dom.document.getElementById("canvas").cast[HTMLCanvasElement]
   val canvas = canvasElem.getContext("2d").cast[CanvasRenderingContext2D]
@@ -39,28 +39,26 @@ object Main {
   @JSExport
   def levelJump(): Unit = {
     board.world.destroy()
-    backgroundMusic.pause
+    backgroundMusic.pause()
     backgroundMusic.currentTime = 0
     val levelChooser = dom.document.getElementById("levelChooser").cast[HTMLSelectElement]
     val level = levelChooser.value.toString
-    currentIndex = boards.indexWhere(_().name == level)
-    val newBoard = boards(currentIndex)()
+    currentIndex = boards.indexWhere(_._1 == level)
+    val newBoard = boards(currentIndex)._2()
     board = newBoard
   }
 
   def nextLevel: Unit = {
     board.world.destroy()
+    backgroundMusic.pause()
+    backgroundMusic.currentTime = 0
     if (currentIndex + 1 < boards.length) {
-      backgroundMusic.pause
-      backgroundMusic.currentTime = 0
       currentIndex += 1
-      val newBoard = boards(currentIndex)()
+      val newBoard = boards(currentIndex)._2()
       board = newBoard
       dom.document.getElementById("levelChooser").cast[HTMLSelectElement].selectedIndex = currentIndex
     } else {
-      backgroundMusic.pause
-      backgroundMusic.currentTime = 0
-      board = boards(currentIndex)()
+      board = boards(currentIndex)._2()
     }
   }
 

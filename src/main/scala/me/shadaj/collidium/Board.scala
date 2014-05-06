@@ -22,7 +22,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   val SCREEN_SIZE = 500
 
   val world = Physics()
-  val onTick = (time: Double, dt: Double) => {
+  val onTick = (time: Double) => {
     if (!won) {
       world.step(time)
       if (started) {
@@ -32,7 +32,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
       update
     }
   }
-  Ticker.subscribe(onTick)
+  Ticker.on(onTick)
   Ticker.start()
   world.add(Physics.behavior("body-collision-detection"))
   world.add(Physics.behavior("sweep-prune"))
@@ -41,7 +41,7 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
   world.add(ball.body)
   walls.foreach(w => world.add(w.body))
 
-  world.subscribe("step", () => paint(Main.canvas))
+  world.on("step", () => paint(Main.canvas))
 
   def paint(canvas: CanvasRenderingContext2D) {
     canvas.fillStyle = "black"
@@ -133,8 +133,8 @@ class Board(val name: String, val maximumStretch: Int, val margin: Int, val wall
       val xForce = -slingOption.get.deltaX
       val yForce = -slingOption.get.deltaY
 
+      ball.body.treatment = "dynamic"
       ball.body.accelerate(Vector(xForce * FORCE_SCALE, yForce * FORCE_SCALE))
-      ball.body.fixed = false
       started = true
       Main.backgroundMusic.play()
     } else if (curObstacle.isDefined) {

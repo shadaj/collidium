@@ -23,7 +23,7 @@ abstract class Sprite(val color: String) {
 }
 
 class Circle(var location: Point, val diameter: Int, color: String, usePhysics: Boolean) extends Sprite(color) {
-  val setup: CircleSetup = CircleSetup(location.x, location.y, 0, 0, true, diameter / 2D)
+  val setup: CircleSetup = CircleSetup(location.x, location.y, 0, 0, "static", diameter / 2D)
   val body = Physics.body("circle", setup)
 
   override def draw(canvas: CanvasRenderingContext2D): Unit = {
@@ -48,7 +48,7 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
 }
 
 class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
-  val setup = PolygonSetup((start.x + end.x) / 2D, (start.y + end.y) / 2, 0, 0, true, Array(Vector(start.x, start.y), Vector(start.x - 1, start.y - 1), Vector(end.x - 1, end.y - 1), Vector(end.x, end.y)))
+  val setup = PolygonSetup((start.x + end.x) / 2D, (start.y + end.y) / 2, 0, 0, "static", Array(Vector(start.x, start.y), Vector(start.x - 1, start.y - 1), Vector(end.x - 1, end.y - 1), Vector(end.x, end.y)))
   val body = Physics.body("convex-polygon", setup)
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y

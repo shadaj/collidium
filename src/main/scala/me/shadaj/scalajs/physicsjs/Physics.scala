@@ -20,7 +20,7 @@ trait ShapeSetup extends js.Object {
   var y: Double
   var vx: Double
   var vy: Double
-  var fixed: Boolean
+  var treatment: Boolean
 }
 
 trait CircleSetup extends ShapeSetup {
@@ -32,14 +32,14 @@ trait PolygonSetup extends ShapeSetup {
 }
 
 object PolygonSetup {
-  def apply(x: Double, y: Double, vx: Double, vy: Double, fixed: Boolean, vertices: js.Array[Vector]) = {
-    literal(x = x, y = y, vx = vx, vy = vy, fixed = fixed, vertices = vertices).asInstanceOf[PolygonSetup]
+  def apply(x: Double, y: Double, vx: Double, vy: Double, treatment: String, vertices: js.Array[Vector]) = {
+    literal(x = x, y = y, vx = vx, vy = vy, treatment = treatment, vertices = vertices).asInstanceOf[PolygonSetup]
   }
 }
 
 object CircleSetup {
-  def apply(x: Double, y: Double, vx: Double, vy: Double, fixed: Boolean, radius: Double) = {
-    literal(x = x, y = y, vx = vx, vy = vy, fixed = fixed, radius = radius).asInstanceOf[CircleSetup]
+  def apply(x: Double, y: Double, vx: Double, vy: Double, treatment: String, radius: Double) = {
+    literal(x = x, y = y, vx = vx, vy = vy, treatment = treatment, radius = radius).asInstanceOf[CircleSetup]
   }
 }
 
@@ -75,8 +75,8 @@ trait World extends js.Object {
   def add(Behavior: Behavior): Unit
   def step(time: Double): Unit
   def add(renderer: Renderer): Unit
-  def subscribe(mode: String, func: js.Function0[Unit]): Unit
-  def subscribe(mode: String, func: js.Function1[js.Dynamic, Unit]): Unit
+  def on(mode: String, func: js.Function0[Unit]): Unit
+  def on(mode: String, func: js.Function1[js.Dynamic, Unit]): Unit
   def render(): Unit
   def destroy(): Unit
 }
@@ -85,8 +85,8 @@ trait Body extends js.Object {
   var state: BodyState
   def applyForce(f: Vector): Unit
   def accelerate(f: Vector): Unit
-  def recalc: Unit
-  var fixed: Boolean
+  def recalc(): Unit
+  var treatment: String
 }
 
 trait BodyState extends js.Object {
@@ -106,8 +106,8 @@ object Vector extends js.Object {
 
 @JSName("Physics.util.ticker")
 object Ticker extends js.Object {
-  def subscribe(function: js.Function2[Double, Double, Unit]): Unit = ???
-  def unsubscribe(function: js.Function2[Double, Double, Unit]): Unit = ???
+  def on(function: js.Function1[Double, Unit]): Unit = ???
+  def off(function: js.Function1[Double, Unit]): Unit = ???
   def start(): Unit = ???
 }
 

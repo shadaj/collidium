@@ -72,6 +72,7 @@ object RendererSetup {
 
 trait World extends js.Object {
   def add(body: Body): Unit
+  def remove(body: Body): Unit
   def add(Behavior: Behavior): Unit
   def step(time: Double): Unit
   def add(renderer: Renderer): Unit

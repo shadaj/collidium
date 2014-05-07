@@ -13,6 +13,10 @@ import org.scalajs.dom.extensions.Castable
 object Main {
   val boardsArray: scala.Array[Dynamic] = Dynamic.global.levels.asInstanceOf[js.Array[Dynamic]]
   val boards = boardsArray.map { d =>
+    val optionNode = dom.document.createElement("option").cast[HTMLOptionElement]
+    optionNode.innerHTML = d.name.toString
+    optionNode.value = d.name.toString
+    dom.document.getElementById("levelChooser").cast[HTMLSelectElement].appendChild(optionNode)
     (d.name.toString, () => BoardLoader.jsonToBoard(d))
   }
 
@@ -22,18 +26,21 @@ object Main {
   val canvas = canvasElem.getContext("2d").cast[CanvasRenderingContext2D]
 
   val backgroundMusic = dom.document.getElementById("backgroundAudio").cast[HTMLAudioElement]
+  val hitMusic = dom.document.getElementById("hitAudio").cast[HTMLAudioElement]
+  val winMusic = dom.document.getElementById("winAudio").cast[HTMLAudioElement]
 
   var currentIndex = 0
-  
+
   @JSExport
-  def main(): Unit = {
+  def start(): Unit = {
     canvasElem.onmousedown = onMouseDown
     canvasElem.onmouseup = onMouseUp
     canvasElem.onmousemove = onMouseMove
-    
-    canvasElem.addEventListener("touchstart", (event: Event) => onMouseDown(event.cast[MouseEvent]))
-    canvasElem.addEventListener("touchmove", (event: Event) => onMouseMove(event.cast[MouseEvent]))
-    canvasElem.addEventListener("touchend", (event: Event) => onMouseUp(event.cast[MouseEvent]))
+  }
+
+  @JSExport
+  def rocket(): Unit = {
+    board.rocket()
   }
 
   @JSExport
@@ -48,7 +55,7 @@ object Main {
     board = newBoard
   }
 
-  def nextLevel: Unit = {
+  def nextLevel(): Unit = {
     board.world.destroy()
     backgroundMusic.pause()
     backgroundMusic.currentTime = 0
@@ -60,6 +67,15 @@ object Main {
     } else {
       board = boards(currentIndex)._2()
     }
+  }
+
+  @JSExport
+  def reset(): Unit = {
+    board.world.destroy()
+    backgroundMusic.pause()
+    backgroundMusic.currentTime = 0
+    val newBoard = boards(currentIndex)._2()
+    board = newBoard
   }
 
   def location(event: MouseEvent): (Double, Double) = {

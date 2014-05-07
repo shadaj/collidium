@@ -13,8 +13,7 @@ object BoardLoader {
     } else if (json.typ.toString == "circle") {
       Some(new Circle(jsonToPoint(json.location),
         json.diameter.toString.toInt,
-        json.color.toString,
-        json.usePhysics.toString.toBoolean))
+        json.color.toString))
     } else {
       None
     }
@@ -29,10 +28,8 @@ object BoardLoader {
 
     new Board(json.name.toString,
       json.maximumStretch.toString.toInt,
-      json.margin.toString.toInt,
       obstacles.toList,
       jsonToSprite(json.ball).get.asInstanceOf[Circle],
-      jsonToSprite(json.hole).get.asInstanceOf[Circle],
-      json.friction.toString.toInt)
+      jsonToSprite(json.hole).get.asInstanceOf[Circle])
   }
 }

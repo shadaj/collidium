@@ -22,14 +22,14 @@ abstract class Sprite(val color: String) {
   }
 }
 
-class Circle(var location: Point, val diameter: Int, color: String, usePhysics: Boolean) extends Sprite(color) {
+class Circle(var location: Point, val diameter: Int, color: String) extends Sprite(color) {
   val setup: CircleSetup = CircleSetup(location.x, location.y, 0, 0, "static", diameter / 2D)
   val body = Physics.body("circle", setup)
 
   override def draw(canvas: CanvasRenderingContext2D): Unit = {
     val worldLocation = body.state.pos
     super.draw(canvas)
-    canvas.beginPath
+    canvas.beginPath()
     val radius = diameter / 2
     canvas.arc(worldLocation.x, worldLocation.y, radius, 0, 2 * math.Pi, false)
     canvas.fill("nonzero")
@@ -48,7 +48,7 @@ class Circle(var location: Point, val diameter: Int, color: String, usePhysics: 
 }
 
 class Line(val start: Point, val end: Point, color: String) extends Sprite(color) {
-  val setup = PolygonSetup((start.x + end.x) / 2D, (start.y + end.y) / 2, 0, 0, "static", Array(Vector(start.x, start.y), Vector(start.x - 1, start.y - 1), Vector(end.x - 1, end.y - 1), Vector(end.x, end.y)))
+  val setup = PolygonSetup((start.x + end.x) / 2D, (start.y + end.y) / 2D, 0, 0, "static", Array(Vector(start.x, start.y), Vector(start.x - 2, start.y - 2), Vector(end.x - 2, end.y - 2), Vector(end.x, end.y)))
   val body = Physics.body("convex-polygon", setup)
   val deltaX = end.x - start.x
   val deltaY = end.y - start.y
@@ -56,10 +56,10 @@ class Line(val start: Point, val end: Point, color: String) extends Sprite(color
   override def draw(canvas: CanvasRenderingContext2D): Unit = {
     super.draw(canvas)
     canvas.lineWidth = 2
-    canvas.beginPath
+    canvas.beginPath()
     canvas.moveTo(start.x, start.y)
     canvas.lineTo(end.x, end.y)
-    canvas.stroke
+    canvas.stroke()
   }
 }
 

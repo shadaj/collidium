@@ -3,8 +3,7 @@ var levels =
 	{
 		"name": "Straight Shooter",
 		"maximumStretch": 50,
-		"margin": 5,
-		"obstacles": [
+"obstacles": [
 		  {
 		  	"typ": "line",
 		    "start": {
@@ -73,14 +72,12 @@ var levels =
 			"diameter": 50,
 			"color": "red",
 			"usePhysics": "false"
-		},
-		"friction": 0
+		}
 	},
 	{
 		"name": "Gotta Go Around",
 		"maximumStretch": 50,
-		"margin": 5,
-		"obstacles": [
+        "obstacles": [
 		  {
 		  	"typ": "line",
 		    "start": {
@@ -160,13 +157,11 @@ var levels =
 			"diameter": 50,
 			"color": "red",
 			"usePhysics": "false"
-		},
-		"friction": 0
+		}
 	},
 	{
 		"name": "Trapezoid Land",
 		"maximumStretch": 50,
-		"margin": 5,
 		"obstacles": [
 		  {
 		  	"typ": "line",
@@ -247,13 +242,11 @@ var levels =
 			"diameter": 50,
 			"color": "red",
 			"usePhysics": false
-		},
-		"friction": 0
+		}
 	},
 	{
 		"name": "Crisscross",
 		"maximumStretch": 50,
-		"margin": 5,
 		"obstacles": [
 		  {
 		  	"typ": "line",
@@ -317,7 +310,7 @@ var levels =
 		  {
 		  	"typ": "line",
 		  	"start": {
-		  		"x": 485,
+		  		"x": 490,
 		  		"y": 95
 		  	},
 		  	"end": {
@@ -329,7 +322,7 @@ var levels =
 		  	"typ": "line",
 		  	"start": {
 		  		"x": 180,
-		  		"y": 485
+		  		"y": 490
 		  	},
 		  	"end": {
 		  		"x": 370,
@@ -340,7 +333,7 @@ var levels =
 		  	"typ": "line",
 		  	"start": {
 		  		"x": 405,
-		  		"y": 15
+		  		"y": 10
 		  	},
 		  	"end": {
 		  		"x": 60,
@@ -367,13 +360,11 @@ var levels =
 			"diameter": 50,
 			"color": "red",
 			"usePhysics": false
-		},
-		"friction": 0
+		}
 	},
 	{
 		"name": "Sandbox",
 		"maximumStretch": 50,
-		"margin": 5,
 		"obstacles": [
 		  {
 		  	"typ": "line",
@@ -431,8 +422,7 @@ var levels =
 				"y": 400
 			},
 			"diameter": 10,
-			"color": "orange",
-			"usePhysics": "true"
+			"color": "orange"
 		},
 		"hole": {
 			"typ": "circle",
@@ -441,9 +431,7 @@ var levels =
 				"y": 100
 			},
 			"diameter": 50,
-			"color": "red",
-			"usePhysics": false
-		},
-		"friction": 0
+			"color": "red"
+		}
 	}
 ]

@@ -11,11 +11,6 @@ import org.scalajs.dom.extensions.Castable
 
 @JSExport
 object Main {
-  val getQuery = window.location.search.filterNot(_ == '?').split('&').map { s =>
-    val split = s.split('=')
-    split(0) -> split(1)
-  }.toMap
-
   val boardsArray: scala.Array[Dynamic] = Dynamic.global.levels.asInstanceOf[js.Array[Dynamic]]
   val boards = boardsArray.map { d =>
       val optionNode = dom.document.createElement("option").cast[HTMLOptionElement]

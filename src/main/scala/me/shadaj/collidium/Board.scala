@@ -7,6 +7,10 @@ import org.scalajs.dom.extensions.Castable
 import me.shadaj.scalajs.physicsjs.{PhysicsSetup, Physics, Ticker, Vector}
 
 class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprite], val ball: Circle, val hole: Circle) {
+  val timeTakenElement = dom.document.getElementById("timeTaken")
+  val inkElement = dom.document.getElementById("ink-left")
+  val fuelElement = dom.document.getElementById("fuel-left")
+
   var slingOption: Option[Sling] = None
   var started = false
   var ended = false
@@ -16,7 +20,7 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
   var remainingStrokes = 25
   var remainingFuel = 5
 
-  var strokes = List[Sprite]()
+  var strokes = List[Line]()
   var prevStrokeLocation: Option[(Double, Double)] = None
 
   dom.document.getElementById("levelName").innerHTML = name
@@ -33,7 +37,7 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
         if (timeRemaining <= 0) {
           ended = true
           Main.backgroundMusic.pause()
-          dom.document.getElementById("timeTaken").innerHTML = "Time Remaining: 0"
+          timeTakenElement.innerHTML = "Time Remaining: 0"
           val text = "Time Out!"
           Main.canvas.font = "normal 50px Arial"
           val measure = Main.canvas.measureText(text)
@@ -63,11 +67,11 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
   world.on("collisions:detected", () => Main.hitMusic.play())
 
   def updateInk(): Unit = {
-    dom.document.getElementById("ink-left").setAttribute("style", s"width: ${remainingStrokes * 4}%;")
+    inkElement.setAttribute("style", s"width: ${remainingStrokes * 4}%;")
   }
 
   def updateFuel(): Unit = {
-    dom.document.getElementById("fuel-left").setAttribute("style", s"width: ${remainingFuel * 20}%;")
+    fuelElement.setAttribute("style", s"width: ${remainingFuel * 20}%;")
   }
 
   updateInk()
@@ -77,7 +81,7 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
     if (!ended) {
       canvas.fillStyle = "black"
       canvas.fillRect(0, 0, SCREEN_SIZE, SCREEN_SIZE)
-      dom.document.getElementById("timeTaken").innerHTML = "Time Remaining: " + f"${timeRemaining / 1000}%0.2f"
+      timeTakenElement.innerHTML = "Time Remaining: " + f"${timeRemaining / 1000}%0.2f"
       obstacles.foreach(_.draw(canvas))
       strokes.foreach(_.draw(canvas))
       hole.draw(canvas)
@@ -105,7 +109,7 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
   }
 
   def update(): Unit = {
-    if (hole.inBoundsOf(ball) && !ended) {
+    if (!ended && hole.inBoundsOf(ball)) {
       Main.backgroundMusic.pause()
       ended = true
       val text = "You Won!"

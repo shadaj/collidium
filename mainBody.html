@@ -29,13 +29,12 @@
                             <span>Ink</span>
                         </div>
                     </div>
-                    <div class="progress">
+                    <div class="progress" onclick="Main().rocket()">
                         <div id="fuel-left" class="progress-bar progress-bar-warning" style="width: 0%;">
-                            <span>Fuel</span>
+                            <span>Fuel (click to use)</span>
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <button id="rocketButton" class="btn btn-warning btn-large" onclick="Main().rocket()">Rocket!</button>
                         <button class="btn btn-info btn-large" onclick="Main().reset()">Reset</button>
                     </div>
 					<h3 id="timeTaken"></h3>

@@ -12,7 +12,6 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
   var ended = false
   var prevTime = 0D
   var timeRemaining = 60000D
-  var curObstacle: Option[Line] = None
 
   var remainingStrokes = 25
   var remainingFuel = 5
@@ -73,21 +72,14 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
 
   updateInk()
   updateFuel()
-  dom.document.getElementById("rocketButton").cast[HTMLButtonElement].disabled = false
 
   def paint(canvas: CanvasRenderingContext2D) {
-    if (ended) {
-    } else {
+    if (!ended) {
       canvas.fillStyle = "black"
       canvas.fillRect(0, 0, SCREEN_SIZE, SCREEN_SIZE)
       dom.document.getElementById("timeTaken").innerHTML = "Time Remaining: " + f"${timeRemaining / 1000}%0.2f"
-      updateInk()
-      updateFuel()
       obstacles.foreach(_.draw(canvas))
       strokes.foreach(_.draw(canvas))
-      if (curObstacle.isDefined) {
-        curObstacle.get.draw(canvas)
-      }
       hole.draw(canvas)
       ball.draw(canvas)
       if (!started) {
@@ -98,13 +90,17 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
     }
   }
 
+  val ROCKET_FORCE = 0.25
+
   def rocket(): Unit = {
     if (started && remainingFuel > 0) {
-      ball.body.applyForce(Vector(ball.body.state.vel.get(0) * 0.2, ball.body.state.vel.get(1) * 0.2))
+      val xVel = ball.body.state.vel.get(0)
+      val yVel = ball.body.state.vel.get(1)
+      val magnitude = math.sqrt(xVel*xVel + yVel*yVel)
+      val scale = ROCKET_FORCE / magnitude
+      ball.body.applyForce(Vector(xVel * scale, yVel * scale))
       remainingFuel -= 1
-      if (remainingFuel == 0) {
-        dom.document.getElementById("rocketButton").cast[HTMLButtonElement].disabled = true
-      }
+      updateFuel()
     }
   }
 
@@ -132,8 +128,6 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
       if ((xDiff * xDiff) + (yDiff * yDiff) <= (ball.diameter * ball.diameter)) {
         slingOption = Option(new Sling(new Point(x, y), new Point(x, y), "white"))
         ball.body.state.pos.set(x, y)
-      } else if (name == "Sandbox") {
-        curObstacle = Some(new Line(new Point(x, y), new Point(x, y), "white"))
       }
     } else {
       prevStrokeLocation = Some(x, y)
@@ -160,8 +154,6 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
 
         slingOption = Option(new Sling(slingOption.get.start, new Point(newBallPos._1, newBallPos._2), "white"))
         slingOption.get.draw(Main.canvas)
-      } else if (curObstacle.isDefined) {
-        curObstacle = Some(new Line(curObstacle.get.start, new Point(x, y), "white"))
       }
     } else if (prevStrokeLocation.isDefined) {
       if (remainingStrokes == 0) {
@@ -172,6 +164,7 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
         world.add(stroke.body)
         strokes = stroke :: strokes
         remainingStrokes -= 1
+        updateInk()
         dom.setTimeout(() => {
           world.remove(stroke.body)
           strokes = strokes.init
@@ -210,11 +203,6 @@ class Board(val name: String, val maximumStretch: Int, var obstacles: List[Sprit
         ball.body.applyForce(Vector(xForce * FORCE_SCALE, yForce * FORCE_SCALE))
         started = true
         Main.backgroundMusic.play()
-      } else if (curObstacle.isDefined) {
-        val newObstacle = new Line(curObstacle.get.start, new Point(x, y), "white")
-        obstacles = newObstacle :: obstacles
-        world.add(newObstacle.body)
-        curObstacle = None
       }
     } else if (prevStrokeLocation.isDefined) {
       prevStrokeLocation = None

@@ -13,7 +13,8 @@ object BoardLoader {
     } else if (json.typ.toString == "circle") {
       Some(new Circle(jsonToPoint(json.location),
         json.diameter.toString.toInt,
-        json.color.toString))
+        json.color.toString,
+        json.showAngle.toString.toBoolean))
     } else {
       None
     }

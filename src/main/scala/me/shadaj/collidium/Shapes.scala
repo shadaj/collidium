@@ -22,7 +22,7 @@ abstract class Sprite(val color: String) {
   }
 }
 
-class Circle(var location: Point, val diameter: Int, color: String) extends Sprite(color) {
+class Circle(var location: Point, val diameter: Int, color: String, displayAngle: Boolean) extends Sprite(color) {
   val setup: CircleSetup = CircleSetup(location.x, location.y, 0, 0, "static", diameter / 2D)
   val body = Physics.body("circle", setup)
 
@@ -33,13 +33,23 @@ class Circle(var location: Point, val diameter: Int, color: String) extends Spri
     val radius = diameter / 2
     canvas.arc(worldLocation.x, worldLocation.y, radius, 0, 2 * math.Pi, false)
     canvas.fill("nonzero")
+    canvas.stroke()
+    if (displayAngle) {
+      canvas.translate(worldLocation.x, worldLocation.y)
+      canvas.rotate(body.state.angular.pos)
+      canvas.fillStyle = "deepskyblue"
+      val squareLoc = (radius / math.sqrt(2)) - 1
+      canvas.fillRect(-squareLoc, -squareLoc, squareLoc * 2, squareLoc * 2)
+      canvas.rotate(-body.state.angular.pos)
+      canvas.translate(-worldLocation.x, -worldLocation.y)
+    }
   }
 
   def inBoundsOf(circle: Circle): Boolean = {
     val xshift = circle.body.state.pos.x - body.state.pos.x
     val yshift = circle.body.state.pos.y - body.state.pos.y
     val deltaDiameter = (diameter - circle.diameter) / 2
-    if ((xshift * xshift) + (yshift * yshift) < (deltaDiameter) * (deltaDiameter) && circle.diameter <= diameter) {
+    if ((xshift * xshift) + (yshift * yshift) < deltaDiameter * deltaDiameter && circle.diameter <= diameter) {
       true
     } else {
       false

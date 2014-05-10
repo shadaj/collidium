@@ -73,7 +73,7 @@ object RendererSetup {
 trait World extends js.Object {
   def add(body: Body): Unit
   def remove(body: Body): Unit
-  def add(Behavior: Behavior): Unit
+  def add(behavior: Behavior): Unit
   def step(time: Double): Unit
   def add(renderer: Renderer): Unit
   def on(mode: String, func: js.Function0[Unit]): Unit
@@ -93,6 +93,13 @@ trait Body extends js.Object {
 trait BodyState extends js.Object {
   var pos: Vector
   var vel: Vector
+  var angular: AngularData
+}
+
+trait AngularData extends js.Object {
+  var pos: Double
+  var vel: Double
+  var acc: Double
 }
 
 trait Vector extends js.Object {

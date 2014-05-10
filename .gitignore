@@ -2,16 +2,5 @@ project/
 server.js
 node_modules/
 js/scalajs-runtime.js.map
-target/.history
-target/resolution-cache/
-target/scala-2.11/cache/
-target/scala-2.11/classes/
-target/scala-2.11/collidium.js.map
-target/scala-2.11/collidium-extdeps.js
-target/scala-2.11/collidium-fastopt.js
-target/scala-2.11/collidium-fastopt.js.map
-target/scala-2.11/collidium-intdeps.js
-target/scala-2.11/collidium.js
-target/streams/
-target/scalastyle-result.xml
+target/
 .idea/

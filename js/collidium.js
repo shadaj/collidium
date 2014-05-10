@@ -42,12 +42,12 @@ function getCookie(cname) {
 }
 
 function showHowToPlay() {
-    Main().start()
     if (getCookie("version") != version ) {
         howToPlay(0)
     } else {
         $("#game").fadeIn(1000, function () {
             $("html,body").animate({ scrollTop: document.getElementById("game").offsetTop }, 500)
+            Main().start()
             setCookie("version", version, 365)
         })
     }

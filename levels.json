@@ -3,7 +3,7 @@ var levels =
 	{
 		"name": "Straight Shooter",
 		"maximumStretch": 50,
-"obstacles": [
+        "obstacles": [
 		  {
 		  	"typ": "line",
 		    "start": {
@@ -59,9 +59,9 @@ var levels =
 				"x": 400,
 				"y": 400
 			},
-			"diameter": 10,
+			"diameter": 20,
 			"color": "orange",
-			"usePhysics": "true"
+			"showAngle": true
 		},
 		"hole": {
 			"typ": "circle",
@@ -71,7 +71,7 @@ var levels =
 			},
 			"diameter": 50,
 			"color": "red",
-			"usePhysics": "false"
+			"showAngle": false
 		}
 	},
 	{
@@ -144,9 +144,9 @@ var levels =
 				"x": 400,
 				"y": 400
 			},
-			"diameter": 10,
+			"diameter": 20,
 			"color": "orange",
-			"usePhysics": "true"
+			"showAngle": true
 		},
 		"hole": {
 			"typ": "circle",
@@ -156,7 +156,7 @@ var levels =
 			},
 			"diameter": 50,
 			"color": "red",
-			"usePhysics": "false"
+			"showAngle": false
 		}
 	},
 	{
@@ -229,9 +229,9 @@ var levels =
 				"x": 400,
 				"y": 400
 			},
-			"diameter": 10,
+			"diameter": 20,
 			"color": "orange",
-			"usePhysics": true
+			"showAngle": true
 		},
 		"hole": {
 			"typ": "circle",
@@ -241,7 +241,7 @@ var levels =
 			},
 			"diameter": 50,
 			"color": "red",
-			"usePhysics": false
+			"showAngle": false
 		}
 	},
 	{
@@ -347,9 +347,9 @@ var levels =
 				"x": 400,
 				"y": 400
 			},
-			"diameter": 10,
+			"diameter": 20,
 			"color": "orange",
-			"usePhysics": true
+			"showAngle": true
 		},
 		"hole": {
 			"typ": "circle",
@@ -359,79 +359,7 @@ var levels =
 			},
 			"diameter": 50,
 			"color": "red",
-			"usePhysics": false
-		}
-	},
-	{
-		"name": "Sandbox",
-		"maximumStretch": 50,
-		"obstacles": [
-		  {
-		  	"typ": "line",
-		    "start": {
-		    	"x": 10,
-		    	"y": 10
-		    },
-		    "end": {
-		    	"x": 490,
-		    	"y": 10
-		    },
-		    "color": "white"
-		  },
-		  {
-		  	"typ": "line",
-		    "start": {
-		    	"x": 490,
-		    	"y": 10
-		    },
-		    "end": {
-		    	"x": 490,
-		    	"y": 490
-		    },
-		    "color": "white"
-		  },
-		  {
-		  	"typ": "line",
-		    "start": {
-		    	"x": 490,
-		    	"y": 490
-		    },
-		    "end": {
-		    	"x": 10,
-		    	"y": 490
-		    },
-		    "color": "white"
-		  },
-		  {
-		  	"typ": "line",
-		    "start": {
-		    	"x": 10,
-		    	"y": 490
-		    },
-		    "end": {
-		    	"x": 10,
-		    	"y": 10
-		    },
-		    "color": "white"
-		  }
-		],
-		"ball": {
-			"typ": "circle",
-			"location": {
-				"x": 400,
-				"y": 400
-			},
-			"diameter": 10,
-			"color": "orange"
-		},
-		"hole": {
-			"typ": "circle",
-			"location": {
-				"x": 100,
-				"y": 100
-			},
-			"diameter": 50,
-			"color": "red"
+			"showAngle": false
 		}
 	}
 ]

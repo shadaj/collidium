@@ -19,6 +19,7 @@ function howToPlay(index) {
     if (index == 5) {
         $("#game").fadeIn(1000, function () {
             $("html,body").animate({ scrollTop: document.getElementById("game").offsetTop }, 500)
+            Main().start()
             setCookie("version", version, 365)
         })
     } else {

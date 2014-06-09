@@ -20,6 +20,7 @@ function howToPlay(index) {
         $("#game").fadeIn(1000, function () {
             $("html,body").animate({ scrollTop: document.getElementById("game").offsetTop }, 500)
             setCookie("version", version, 365)
+            Main().start()
         })
     } else {
         document.getElementById("howToPlay").innerHTML = howToPlays[index]

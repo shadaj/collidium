@@ -1,11 +1,19 @@
 .progress {
-    position: relative;
+	position: relative;
+	height: 20px;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+}
+
+.progress-bar:last-child.progress-bar:before {
+	content: "";
 }
 
 .progress span {
-    position: absolute;
-    display: block;
-    width: 100%;
-    font-weight: bold;
-    color: black;
+	position: absolute;
+	display: block;
+	width: 100%;
+	font-weight: bold;
+	color: black;
 }

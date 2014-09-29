@@ -2,7 +2,7 @@
 	<body>
 		<div id="mainBody">
 			<div class="container">
-				<div class="masthead">
+				<div class="masthead text-center">
 					<h1>Collidium Online</h3>
 				</div>
 				<audio hidden loop id="backgroundAudio">
@@ -17,12 +17,12 @@
                     <source src="./assets/win.mp3" type="audio/mpeg" />
                 </audio>
 
-                <div style="width: 500px">
-                    <h2 id="howToPlay" style="padding-top: 250px; padding-bottom: 250px; text-align: center; display: none"></h3>
+                <div class="center-block" style="width: 500px">
+                    <h2 id="howToPlay" class="text-center" style="padding-top: 250px; padding-bottom: 250px; display: none"></h3>
                 </div>
 
-				<div id="game" style="width: 500px; display: none">
-					<h2 id="levelName" style="text-align: center"></h2>
+				<div id="game" class="center-block" style="width: 500px; display: none">
+					<h2 id="levelName" class="text-center"></h2>
 					<canvas id="canvas" width="500" height="500" style="position: relative"></canvas>
                     <div class="progress">
                         <div id="ink-left" class="progress-bar" style="width: 0%;">

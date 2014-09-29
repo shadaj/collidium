@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html>
-    <link href="http://shadaj.me/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://shadaj.me/css/main.css" rel="stylesheet">
+<html style="overflow: auto; height: auto;">
+    <link href="http://shadaj.me/main.min.css" rel="stylesheet">
     <link href="./css/collidium.css" rel="stylesheet">
 
     <head>
@@ -9,31 +8,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <div class="navbar navbar-default">
-            <div class="container-full">
+        <div id="menu" class="navbar navbar-default">
+            <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a id="about" class="navbar-brand" href="http://shadaj.me/#about">Shadaj's Website</a>
-                </div>
-
-                <div class="navbar-collapse collapse" id="main-menu">
-                    <ul class="nav navbar-nav">
-                        <li id="youtube" class=""><a href="http://shadaj.me/#youtube">Videos</a></li>
-                        <li id="githubNav" class=""><a href="http://shadaj.me/#github">Open-source Projects</a></li>
-                        <li id="apps" class=""><a href="http://shadaj.me/#apps">Apps</a></li>
-                        <li id="courses" class=""><a href="http://shadaj.me/#courses">Courses</a></li>
-                    </ul>
+                    <a class="navbar-brand" href="http://shadaj.me">
+                        <img class="nav-profile" src="http://shadaj.me/img/profile.jpg">
+                    </a>
                 </div>
             </div>
         </div>
         <a href="https://github.com/shadaj/collidium" target="_new"><img style="z-index: 1000; position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
         <div id="main"></div>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="http://shadaj.me/main.min.js"></script>
         <script type="text/javascript" src="./levels.json"></script>
         <script type="text/javascript" src="./js/physicsjs-full-0.6.0.min.js"></script>
         <script type="text/javascript" src="./js/collidium.js"></script>
